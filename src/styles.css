@@ -172,3 +172,6 @@ body{margin-top:20px;}
 .table-stats .table-line-plus .status-social-icon {
   color: #a75d54;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
