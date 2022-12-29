@@ -9,8 +9,7 @@ import {Flight} from "../model/flight";
 })
 export class FlightService {
   private apiServerUrl = environment.apiBaseUrl;
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient) {}
   public searchFlight(depAirport: string, arrAirport: string, depDate: string): Observable<Flight[]> {
     return this.http.get<Flight[]>(`${this.apiServerUrl}/flight/search?depAirport=${depAirport}&arrAirport=${arrAirport}&depDate=${depDate}`);
   }
