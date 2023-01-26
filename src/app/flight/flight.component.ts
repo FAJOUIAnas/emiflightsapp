@@ -14,8 +14,8 @@ export class FlightComponent implements OnInit{
 
   constructor(private flightService: FlightService, private  route : ActivatedRoute) { }
 
-  public searchFlight(depAirport: string, arrAirport: string, depDate: string): void {
-    this.flightService.searchFlight(depAirport, arrAirport, depDate).subscribe(
+  public searchFlight(depAirport: string, arrAirport: string, depDate: string, _class: string, nbOfPassengers: number): void {
+    this.flightService.searchFlight(depAirport, arrAirport, depDate, _class, nbOfPassengers).subscribe(
       (response: Flight[]) => {
         this.flights = response;
       },
@@ -29,6 +29,8 @@ export class FlightComponent implements OnInit{
     const depAirport : string = this.route.snapshot.params['dep-airport'];
     const arrAirport : string = this.route.snapshot.params['arr-airport'];
     const depDate : string = this.route.snapshot.params['dep-date'];
-    this.searchFlight(depAirport, arrAirport, depDate);
+    const _class : string = this.route.snapshot.params['class'];
+    const nbOfPassengers : number = this.route.snapshot.params['nb-of-passengers'];
+    this.searchFlight(depAirport, arrAirport, depDate, _class, nbOfPassengers);
   }
 }

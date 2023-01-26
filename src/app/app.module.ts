@@ -20,7 +20,7 @@ import {MatNativeDateModule} from "@angular/material/core";
 
 const appRoutes: Routes = [
   {path : '', component : SearchComponent},
-  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date', component : FlightComponent},
+  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers', component : FlightComponent},
   {path : 'plane', component : PlanesComponent}
 ]
 @NgModule({

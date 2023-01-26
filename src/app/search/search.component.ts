@@ -13,11 +13,20 @@ import {map, Observable, startWith} from "rxjs";
 })
 export class SearchComponent implements OnInit{
   public airports : Airport[] = [];
+  date: Date = new Date();
+  today!: String;
   constructor(private route: Router, private airportService : AirportService) {
   }
 
-  onSearchFlight(origin: string, destination: string, depDate: string) {
-    this.route.navigate([`searchflight/${origin}/${destination}/${depDate}`])
+  onSearchFlight(origin: string, destination: string, depDate: string, _class: string, nbOfPassengersAdults: string, nbOfPassengersChildren: string) {
+    const nbOfPassengers: number = parseInt(nbOfPassengersAdults) + parseInt(nbOfPassengersChildren);
+    if (_class == 'ECONOMY') {
+      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/ECO/${nbOfPassengers}`])
+    } else if (_class == 'BUSINESS') {
+      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/BUSI/${nbOfPassengers}`])
+    } else if (_class == 'FIRST') {
+      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/FST/${nbOfPassengers}`])
+    }
   }
 
   control = new FormControl<string | Airport>('');
@@ -34,8 +43,9 @@ export class SearchComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.getAirports();
+    this.today = this.date.toISOString().substr(0, 10);
 
+    this.getAirports();
     this.filteredOptions = this.control.valueChanges.pipe(
       startWith(''),
       map(value => {
