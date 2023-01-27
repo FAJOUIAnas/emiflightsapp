@@ -14,19 +14,23 @@ import {map, Observable, startWith} from "rxjs";
 export class SearchComponent implements OnInit{
   public airports : Airport[] = [];
   date: Date = new Date();
-  today!: String;
+  today!: string;
+  flightType: string = 'one-way';
   constructor(private route: Router, private airportService : AirportService) {
   }
 
-  onSearchFlight(origin: string, destination: string, depDate: string, _class: string, nbOfPassengersAdults: string, nbOfPassengersChildren: string) {
+  onFlightType(flightType: string) {
+    this.flightType = flightType
+    console.log(this.flightType)
+  }
+
+  onSearchFlight(origin: string, destination: string, depDate: string, _class: string, nbOfPassengersAdults: string, nbOfPassengersChildren: string, reDate: string) {
+    console.log(reDate)
     const nbOfPassengers: number = parseInt(nbOfPassengersAdults) + parseInt(nbOfPassengersChildren);
-    if (_class == 'ECONOMY') {
-      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/ECO/${nbOfPassengers}`])
-    } else if (_class == 'BUSINESS') {
-      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/BUSI/${nbOfPassengers}`])
-    } else if (_class == 'FIRST') {
-      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/FST/${nbOfPassengers}`])
-    }
+    if (this.flightType == 'one-way')
+      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/${_class}/${nbOfPassengers}`])
+    else if (this.flightType == 'round-trip')
+      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/${_class}/${nbOfPassengers}/${reDate}`])
   }
 
   control = new FormControl<string | Airport>('');

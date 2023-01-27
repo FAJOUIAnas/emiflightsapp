@@ -37,15 +37,15 @@
       <div class="h-100 card">
         <div class="card-body">
           <h5 class="card-title">Dates</h5>
-          <!--<div class="mb-2">
+          <div class="mb-2">
             <label id="flight-type-label" for="flight-type-select" class="form-label">
               Flight
             </label>
-            <select id="flight-type-select" class="form-select" aria-describedby="flight-type-label">
+            <select id="flight-type-select" class="form-select" aria-describedby="flight-type-label" type="text" [(ngModel)]="flightType" class="form-control">
               <option value="one-way">One-way</option>
               <option value="round-trip">Round-trip</option>
             </select>
-          </div>-->
+          </div>
           <div id="departure-date" class="mb-2">
             <label id="departure-date-label" for="departure-date-input" class="form-label">
               Departure date
@@ -64,7 +64,7 @@
               />
             </div>
           </div>
-          <!--<div id="return-date" class="mb-2">
+          <div [hidden]="flightType == 'one-way'" id="return-date" class="mb-2">
             <label
               id="return-date-label"
               for="return-date-input"
@@ -77,12 +77,13 @@
                   </span>
               <input
                 type="date"
+                #reDate
                 class="form-control"
                 id="return-date-input"
                 aria-describedby="return-date-label"
               />
             </div>
-          </div>-->
+          </div>
         </div>
       </div>
     </div>
@@ -104,9 +105,9 @@
               type="text"
               #_class
             >
-              <option value="ECONOMY">Economy</option>
-              <option value="BUSINESS">Business</option>
-              <option value="FIRST">First</option>
+              <option value="ECO">Economy</option>
+              <option value="BUSI">Business</option>
+              <option value="FST">First</option>
             </select>
           </div>
           <label class="form-label">Passengers</label>
@@ -119,6 +120,7 @@
                 type="number"
                 #adults
                 min="0"
+                max="10"
                 [defaultValue]="1"
                 class="form-control"
                 id="adults-input"
@@ -138,6 +140,7 @@
                 type="number"
                 #children
                 min="0"
+                max="10"
                 [defaultValue]="0"
                 class="form-control"
                 id="children-input"
@@ -152,7 +155,7 @@
       </div>
     </div>
   </div>
-  <button [disabled]="" (click)="onSearchFlight(origin.value, destination.value, depDate.value, _class.value, adults.value, children.value)" type="submit" id="search-button" class="w-100 btn btn-primary">Search</button>
+  <button [disabled]="" (click)="onSearchFlight(origin.value, destination.value, depDate.value, _class.value, adults.value, children.value, reDate.value)" type="submit" id="search-button" class="w-100 btn btn-primary">Search</button>
 </div>
 
 <!--<mat-form-field appearance="fill">

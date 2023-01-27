@@ -11,7 +11,7 @@
   </div>
 </div>
 -->
-<div class="list-group" *ngFor="let flight of flights">
+<div class="list-group" *ngFor="let flight of outboundFlights">
   <li class="flex-column flex-sm-row list-group-item d-flex justify-content-between align-items-sm-center">
     <a href="#" class="list-group-item list-group-item-action">
       <div class="flex-column flex-1 m-2 d-flex">
@@ -28,13 +28,7 @@
         </div>
       </div>
 
-      <!--<tr>
-        <div class="flex-column flex-1 m-2 d-flex">
-          <small class="text-muted">Return</small>
-          <span class="fw-bold">xxx</span>
-          <div>xxx</div>
-        </div>
-      </tr>-->
+
       <span class="bg-primary rounded-pill m-2 badge fs-6">
         {{flight.flightGeneric.basePrice}} MAD
       </span>
@@ -44,7 +38,7 @@
 
 
 
-<div *ngIf="flights?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+<div *ngIf="outboundFlights?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
   <div class="alert alert-info" role="alert">
     <h4 class="alert-heading">NO FLIGHTS!</h4>
     <p>No flights were found.</p>
