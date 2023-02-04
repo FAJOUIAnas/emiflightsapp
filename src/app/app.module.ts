@@ -17,6 +17,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import {LoginComponent} from "./login/login.component";
 
 const appRoutes: Routes = [
   {path : '', component : SearchComponent},
@@ -29,7 +30,8 @@ const appRoutes: Routes = [
     SearchComponent,
     PlanesComponent,
     NavbarComponent,
-    FlightComponent
+    FlightComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
