@@ -18,11 +18,14 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {LoginComponent} from "./login/login.component";
+import {AuthGuard} from "./service/authentication/auth.guard";
+import { RegisterComponent } from './register/register.component';
 
 const appRoutes: Routes = [
   {path : '', component : SearchComponent},
   {path : 'searchflight/:dep-airport/:arr-airport/:dep-date', component : FlightComponent},
-  {path : 'plane', component : PlanesComponent}
+  {path : 'plane', component : PlanesComponent, canActivate : [AuthGuard]},
+  {path: 'login', component: LoginComponent}
 ]
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ const appRoutes: Routes = [
     PlanesComponent,
     NavbarComponent,
     FlightComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +54,8 @@ const appRoutes: Routes = [
   ],
   providers: [
     PlaneService,
-    MatDatepickerModule
+    MatDatepickerModule,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
