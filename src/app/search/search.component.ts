@@ -19,18 +19,12 @@ export class SearchComponent implements OnInit{
   constructor(private route: Router, private airportService : AirportService) {
   }
 
-  onFlightType(flightType: string) {
-    this.flightType = flightType
-    console.log(this.flightType)
-  }
-
   onSearchFlight(origin: string, destination: string, depDate: string, _class: string, nbOfPassengersAdults: string, nbOfPassengersChildren: string, reDate: string) {
-    console.log(reDate)
     const nbOfPassengers: number = parseInt(nbOfPassengersAdults) + parseInt(nbOfPassengersChildren);
     if (this.flightType == 'one-way')
-      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/${_class}/${nbOfPassengers}`])
+      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/${_class}/${nbOfPassengersAdults}/${nbOfPassengersChildren}`])
     else if (this.flightType == 'round-trip')
-      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/${_class}/${nbOfPassengers}/${reDate}`])
+      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/${_class}/${nbOfPassengersAdults}/${nbOfPassengersChildren}/${reDate}`])
   }
 
   control = new FormControl<string | Airport>('');

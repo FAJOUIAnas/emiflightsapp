@@ -17,12 +17,14 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import { PassengersComponent } from './passengers/passengers.component';
 
 const appRoutes: Routes = [
   {path : '', component : SearchComponent},
-  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers', component : FlightComponent},
-  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers/:re-date', component : FlightComponent},
-  {path : 'plane', component : PlanesComponent}
+  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers-adults/:nb-of-passengers-children', component : FlightComponent},
+  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers-adults/:nb-of-passengers-children/:re-date', component : FlightComponent},
+  {path : 'plane', component : PlanesComponent},
+  {path : 'passengers/:outbound-flight-id/:return-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent}
 ]
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ const appRoutes: Routes = [
     SearchComponent,
     PlanesComponent,
     NavbarComponent,
-    FlightComponent
+    FlightComponent,
+    PassengersComponent
   ],
   imports: [
     BrowserModule,

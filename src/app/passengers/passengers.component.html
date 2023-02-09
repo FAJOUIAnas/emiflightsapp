@@ -1,0 +1,76 @@
+<div class="accordion" id="accordionPanelsStayOpenExample" style="width: 800px; margin: 0 auto; margin-top: 25px;">
+  <div *ngFor="let adultPassenger of adultPassengers" class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              attr.data-bs-target="#panelsStayOpen-collapseOne{{adultPassenger}}" aria-expanded="true"
+              aria-controls="panelsStayOpen-collapseOne"
+              style="font-size: 20px">
+        <i class="bi bi-person" style="font-size: 40px"></i>
+        &nbsp;Adult
+      </button>
+    </h2>
+    <div attr.id="panelsStayOpen-collapseOne{{adultPassenger}}" class="accordion-collapse collapse"
+         aria-labelledby="panelsStayOpen-headingOne" data-bs-parent="#accordionPanelsStayOpenExample" style="width: 80%; margin: 0 auto; margin-top: 25px;">
+      <div style="display: flex; width: 200px">
+        <span class="input-group-text" id="basic-addon1">Civilité :</span>
+        <select class="form-select" aria-label="Default select example">
+          <option selected>---</option>
+          <option value="1">M.</option>
+          <option value="2">Mme</option>
+          <option value="3">Mlle</option>
+        </select>
+      </div>
+
+      <div class="input-group mb-3" style="margin-top: 10px; display: flex; column-gap: 20%">
+        <div style="display: flex; flex-direction: column">
+          <span class="input-group-text" id="basic-addon2">Nom de famille: *</span>
+          <input type="text" class="form-control" placeholder="Écrivez ici..."
+                 aria-label="Username">
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <span class="input-group-text" id="basic-addon3">Prénom: *</span>
+          <input type="text" class="form-control" placeholder="Écrivez ici..." aria-label="Server">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="accordion" id="accordionPanelsStayOpenExamplec" style="width: 800px; margin: 0 auto; margin-top: 25px;">
+  <div *ngFor="let childPassenger of childPassengers" class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingOnec">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse"
+              attr.data-bs-target="#panelsStayOpen-collapseOne{{childPassenger + 100}}" aria-expanded="true"
+              aria-controls="panelsStayOpen-collapseOne"
+              style="font-size: 20px">
+        <i class="bi bi-person" style="font-size: 40px"></i>
+        &nbsp;Child
+      </button>
+    </h2>
+    <div attr.id="panelsStayOpen-collapseOne{{childPassenger + 100}}" class="accordion-collapse collapse"
+         aria-labelledby="panelsStayOpen-headingOne" data-bs-parent="#accordionPanelsStayOpenExamplec" style="width: 80%; margin: 0 auto; margin-top: 25px;">
+      <div style="display: flex; width: 200px">
+        <span class="input-group-text" id="basic-addon1c">Civilité :</span>
+        <select class="form-select" aria-label="Default select example">
+          <option selected>---</option>
+          <option value="1">M.</option>
+          <option value="2">Mme</option>
+          <option value="3">Mlle</option>
+        </select>
+      </div>
+
+      <div class="input-group mb-3" style="margin-top: 10px; display: flex; column-gap: 20%">
+        <div style="display: flex; flex-direction: column">
+          <span class="input-group-text" id="basic-addon2c">Nom de famille: *</span>
+          <input type="text" class="form-control" placeholder="Écrivez ici..."
+                 aria-label="Username">
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <span class="input-group-text" id="basic-addon3c">Prénom: *</span>
+          <input type="text" class="form-control" placeholder="Écrivez ici..." aria-label="Server">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
