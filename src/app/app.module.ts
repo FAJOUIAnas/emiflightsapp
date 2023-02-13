@@ -21,13 +21,18 @@ import {LoginComponent} from "./login/login.component";
 import {AuthGuard} from "./service/authentication/auth.guard";
 import { RegisterComponent } from './register/register.component';
 import { ProfilComponent } from './profil/profil.component';
+import { PassengersComponent } from './passengers/passengers.component';
 
 const appRoutes: Routes = [
   {path : '', component : SearchComponent},
-  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date', component : FlightComponent},
+  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers-adults/:nb-of-passengers-children', component : FlightComponent},
+  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers-adults/:nb-of-passengers-children/:re-date', component : FlightComponent},
   {path : 'plane', component : PlanesComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
-  {path: 'profil', component: ProfilComponent}
+  {path: 'profil', component: ProfilComponent},
+  {path : 'passengers/:outbound-flight-id/:return-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent},
+  {path : 'passengers/:outbound-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent}
+
 ]
 @NgModule({
   declarations: [
@@ -38,7 +43,8 @@ const appRoutes: Routes = [
     FlightComponent,
     LoginComponent,
     RegisterComponent,
-    ProfilComponent
+    ProfilComponent,
+    PassengersComponent
   ],
   imports: [
     BrowserModule,

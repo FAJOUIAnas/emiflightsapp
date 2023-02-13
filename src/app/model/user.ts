@@ -1,4 +1,5 @@
 export class User {
+
   id: string
   image: string
   firstName: string
