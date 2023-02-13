@@ -1,5 +1,6 @@
 export class User {
   id: string
+  image: string
   firstName: string
   lastName: string
   email: string
@@ -10,7 +11,7 @@ export class User {
   username: string
 
 
-  constructor(id: string, firstName: string, lastName: string, email: string, civility: string, birthDate: string, adress: string, password: string, username: string) {
+  constructor(id: string,image: string, firstName: string, lastName: string, email: string, civility: string, birthDate: string, adress: string, password: string, username: string) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -20,5 +21,6 @@ export class User {
     this.adress = adress;
     this.password = password;
     this.username = username;
+    this.image = image;
   }
 }

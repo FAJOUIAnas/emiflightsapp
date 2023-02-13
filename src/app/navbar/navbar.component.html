@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" routerLink="">
       <img src="/assets/brand/EMIFights-solid.png" width="41" height="37" class="d-inline-block align-center" alt="">
       EMI Flights
     </a>
@@ -16,9 +16,12 @@
           <a class="nav-link" routerLink="login">login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">xxx</a>
+          <a class="nav-link" *ngIf="authService.isLoggedIn" routerLink="profil">Profil</a>
         </li>
       </ul>
+    </div>
+    <div class="nav-item">
+      <button class="nav-link" *ngIf="authService.isLoggedIn" (click)="authService.logout()">logout</button>
     </div>
     <form class="form-inline">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

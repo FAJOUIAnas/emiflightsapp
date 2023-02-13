@@ -20,12 +20,14 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {LoginComponent} from "./login/login.component";
 import {AuthGuard} from "./service/authentication/auth.guard";
 import { RegisterComponent } from './register/register.component';
+import { ProfilComponent } from './profil/profil.component';
 
 const appRoutes: Routes = [
   {path : '', component : SearchComponent},
   {path : 'searchflight/:dep-airport/:arr-airport/:dep-date', component : FlightComponent},
-  {path : 'plane', component : PlanesComponent, canActivate : [AuthGuard]},
-  {path: 'login', component: LoginComponent}
+  {path : 'plane', component : PlanesComponent, canActivate: [AuthGuard]},
+  {path: 'login', component: LoginComponent},
+  {path: 'profil', component: ProfilComponent}
 ]
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ const appRoutes: Routes = [
     NavbarComponent,
     FlightComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ProfilComponent
   ],
   imports: [
     BrowserModule,
