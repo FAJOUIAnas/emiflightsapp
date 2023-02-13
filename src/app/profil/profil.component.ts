@@ -43,7 +43,12 @@ export class ProfilComponent {
     "https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=600"
   ]
 
-  constructor(private authService: AuthService, private userService: UserService) {
+  constructor(private _authService: AuthService, private userService: UserService) {
+  }
+
+
+  get authService(): AuthService {
+    return this._authService;
   }
 
   ngOnInit(){
@@ -59,7 +64,7 @@ export class ProfilComponent {
   }
 
   getUser(){
-    this.userService.getUserByCredentials(this.authService.username, this.authService.password)
+    this.userService.getUserByCredentials(this._authService.username, this._authService.password)
       .subscribe(
         (response: User) => {
           this.n = Math.floor(Math.random() * 12);

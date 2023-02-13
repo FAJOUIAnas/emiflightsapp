@@ -7,15 +7,15 @@
   <form method="post">
     <div class="row">
       <div class="col-md-4">
-        <div class="profile-img">
+        <div class="profile-img img">
           <img src="{{image}}" alt=""/>
         </div>
       </div>
       <div class="col-md-6">
         <div class="profile-head">
-          <h5>
+          <h1>
             {{user.lastName}} {{user.firstName}}
-          </h5>
+          </h1>
           <br>
           <br>
           <br>
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="col-md-2">
-        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+        <input type="submit" class="profile-edit-btn" name="btnAddMore" (click)="authService.logout()" value="Logout"/>
       </div>
     </div>
     <div class="row">
