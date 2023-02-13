@@ -87,13 +87,27 @@ export class FlightComponent implements OnInit{
     this.chosenReturnFlight = returnFlight;
   }
 
-  onChooseFlight(outboundFlightId: string, returnFlightId: string) {
+  onChooseFlights(outboundFlightId: string, returnFlightId: string) {
     const nbOfPassengersAdults : number = this.route.snapshot.params['nb-of-passengers-adults'];
     const nbOfPassengersChildren : number = this.route.snapshot.params['nb-of-passengers-children'];
     const _class : string = this.route.snapshot.params['class'];
 
 
     this.router.navigate([`passengers/${outboundFlightId}/${returnFlightId}/${nbOfPassengersAdults}/${nbOfPassengersChildren}/${_class}`])
+
+    /*if (this.flightType == 'one-way')
+      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/${_class}/${nbOfPassengers}`])
+    else if (this.flightType == 'round-trip')
+      this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/${_class}/${nbOfPassengers}/${reDate}`])*/
+  }
+
+  onChooseFlight(outboundFlightId: string) {
+    const nbOfPassengersAdults : number = this.route.snapshot.params['nb-of-passengers-adults'];
+    const nbOfPassengersChildren : number = this.route.snapshot.params['nb-of-passengers-children'];
+    const _class : string = this.route.snapshot.params['class'];
+
+
+    this.router.navigate([`passengers/${outboundFlightId}/${nbOfPassengersAdults}/${nbOfPassengersChildren}/${_class}`])
 
     /*if (this.flightType == 'one-way')
       this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/${_class}/${nbOfPassengers}`])

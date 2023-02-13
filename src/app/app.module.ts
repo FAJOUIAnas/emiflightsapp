@@ -24,7 +24,8 @@ const appRoutes: Routes = [
   {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers-adults/:nb-of-passengers-children', component : FlightComponent},
   {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers-adults/:nb-of-passengers-children/:re-date', component : FlightComponent},
   {path : 'plane', component : PlanesComponent},
-  {path : 'passengers/:outbound-flight-id/:return-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent}
+  {path : 'passengers/:outbound-flight-id/:return-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent},
+  {path : 'passengers/:outbound-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent}
 ]
 @NgModule({
   declarations: [

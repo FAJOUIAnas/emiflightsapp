@@ -13,4 +13,8 @@ export class FlightService {
   public searchFlight(depAirport: string, arrAirport: string, depDate: string, _class: string, nbOfPassengers: number): Observable<Flight[]> {
     return this.http.get<Flight[]>(`${this.apiServerUrl}/flight/search?depAirport=${depAirport}&arrAirport=${arrAirport}&depDate=${depDate}&classCode=${_class}&numberOfPassengers=${nbOfPassengers}`);
   }
+
+  public getFlightById(flightId: string): Observable<Flight> {
+    return this.http.get<Flight>(`${this.apiServerUrl}/flight/find/${flightId}`);
+  }
 }
