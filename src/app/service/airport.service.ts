@@ -13,4 +13,8 @@ export class AirportService {
   public getAirports(): Observable<Airport[]> {
     return this.http.get<Airport[]>(`${this.apiServerUrl}/airport/all`);
   }
+
+  public getAirportByCode(airportCode: string): Observable<Airport> {
+    return this.http.get<Airport>(`${this.apiServerUrl}/airport/find/${airportCode}`);
+  }
 }
