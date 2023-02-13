@@ -19,8 +19,9 @@ export class PassengersComponent implements OnInit {
   public childPassengers : Reservation[] = [];
   public nbOfPassengersAdults !: string;
   public nbOfPassengersChildren !: string;
-
   public outboundFlight!: Flight;
+  public checkker: boolean = false;
+  public clicked: boolean = false;
 
   constructor(private  route : ActivatedRoute, private flightService: FlightService) {}
 
@@ -55,6 +56,18 @@ export class PassengersComponent implements OnInit {
     );
 
     // this.childPassengers = Array.from(Array(parseInt(this.nbOfPassengersChildren)),(x,i)=>i);
+  }
+
+  public check(reservations: Reservation[]): boolean {
+    this.clicked = true;
+    for(let i = 0; i < reservations.length; i++) {
+      if((reservations[i].passengerCivility.code == undefined || reservations[i].passengerFirstName == undefined || reservations[i].passengerLastName == undefined) || (reservations[i].passengerCivility.code == '' || reservations[i].passengerFirstName == '' || reservations[i].passengerLastName == '')) {
+        this.checkker = false;
+        return false;
+      }
+    }
+    this.checkker = true;
+    return true
   }
 
 }

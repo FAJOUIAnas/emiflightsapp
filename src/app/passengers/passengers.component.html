@@ -1,4 +1,5 @@
-<div class="accordion" id="accordionPanelsStayOpenExample" style="width: 800px; margin: 0 auto; margin-top: 25px;">
+<div class="accordion" id="accordionPanelsStayOpenExample" style="width: 800px; margin: 0 auto; margin-top: 25px;"
+     xmlns:text-align="http://www.w3.org/1999/xhtml">
   <div *ngFor="let adultPassenger of adultPassengers; let i = index" class="accordion-item">
     <h2 class="accordion-header" id="panelsStayOpen-headingOne">
       <button class="accordion-button" type="button" data-bs-toggle="collapse"
@@ -14,7 +15,6 @@
       <div style="display: flex; width: 200px">
         <span class="input-group-text" id="basic-addon1">Civilité :</span>
         <select [(ngModel)]="adultPassenger.passengerCivility.code" class="form-select" aria-label="Default select example">
-          <option selected>---</option>
           <option value="Mr">M.</option>
           <option value="Mrs">Mme</option>
           <option value="Miss">Mlle</option>
@@ -67,8 +67,8 @@
                  aria-label="Username">
         </div>
         <div style="display: flex; flex-direction: column;">
-          <span [(ngModel)]="childPassenger.passengerFirstName" class="input-group-text" id="basic-addon3c">Prénom: *</span>
-          <input type="text" class="form-control" placeholder="Écrivez ici..." aria-label="Server">
+          <span class="input-group-text" id="basic-addon3c">Prénom: *</span>
+          <input [(ngModel)]="childPassenger.passengerFirstName" type="text" class="form-control" placeholder="Écrivez ici..." aria-label="Server">
         </div>
       </div>
 
@@ -87,3 +87,25 @@
   </div>
 </div>
 
+<div>
+  <button class="btn ml-auto btn-sm" style="display: block; margin: 0 auto;"
+          (click) = "check(adultPassengers.concat(childPassengers))"
+          [ngClass]="{'btn-success': checkker, 'btn-secondary': !checkker}"
+  >
+    Verifier les donnees
+  </button>
+</div>
+
+
+<div class="d-flex alert alert-danger" style="width: 380px; margin: 0 auto; margin-top: 10px" *ngIf="!checkker && clicked" role="alert">
+  svp remplir tous les champs puis cliquez sur verifier.
+</div>
+
+<div class="d-flex" style="margin-right: 25px">
+  <button class="btn btn-primary ml-auto btn-lg" style="margin-bottom: 25px"
+          [disabled]="!checkker"
+          (click) = "check(adultPassengers.concat(childPassengers))"
+  >
+    Continuer
+  </button>
+</div>
