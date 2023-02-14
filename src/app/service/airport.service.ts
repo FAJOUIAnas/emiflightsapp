@@ -3,19 +3,23 @@ import {environment} from "../../enviroments/enviroment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Airport} from "../model/airport";
+import {AuthService} from "./authentication/auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AirportService {
-  headers = { 'Authorization': 'Bearer my-token'};
   private apiServerUrl = environment.apiBaseUrl;
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
   public getAirports(): Observable<Airport[]> {
-    return this.http.get<Airport[]>(`${this.apiServerUrl}/airport/all`);
+    let header = { 'Authorization': `Bearer ${this.authService.token}`};
+    return this.http.get<Airport[]>(`${this.apiServerUrl}/airport/all`, {headers: header});
   }
 
   public getAirportByCode(airportCode: string): Observable<Airport> {
-    return this.http.get<Airport>(`${this.apiServerUrl}/airport/find/${airportCode}`);
+    let header = { 'Authorization': `Bearer ${this.authService.token}`};
+    return this.http.get<Airport>(`${this.apiServerUrl}/airport/find/${airportCode}`, {headers: header});
   }
 }
