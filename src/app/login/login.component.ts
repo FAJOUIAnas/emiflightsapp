@@ -100,7 +100,6 @@ export class LoginComponent {
       console.log(this.authService.token)
       this.authService.isLoggedIn = true
       this.router.navigate(["profil"])
-
     }
 
     if (!this.authService.isLoggedIn){
@@ -114,7 +113,6 @@ export class LoginComponent {
             console.log(this.authService.token)
             console.log(this.authService.isLoggedIn)
             this.router.navigate(["profil"])
-
           }
           else{
             this.authService.isLoggedIn = false
