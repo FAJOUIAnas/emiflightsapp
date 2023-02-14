@@ -8,6 +8,7 @@ import {Airport} from "../model/airport";
   providedIn: 'root'
 })
 export class AirportService {
+  headers = { 'Authorization': 'Bearer my-token'};
   private apiServerUrl = environment.apiBaseUrl;
   constructor(private http: HttpClient) {}
   public getAirports(): Observable<Airport[]> {

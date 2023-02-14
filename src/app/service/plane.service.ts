@@ -3,27 +3,32 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../enviroments/enviroment";
 import {Plane} from "../model/plane";
+import {AuthService} from "./authentication/auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaneService {
   private apiServerUrl = environment.apiBaseUrl;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   public getPlanes(): Observable<Plane[]> {
-    return this.http.get<Plane[]>(`${this.apiServerUrl}/plane/all`);
+    let header = { 'Authorization': `Bearer ${this.authService.token}`};
+    return this.http.get<Plane[]>(`${this.apiServerUrl}/plane/all`, {headers : header});
   }
 
   public addPlane(plane: Plane): Observable<Plane> {
-    return this.http.post<Plane>(`${this.apiServerUrl}/plane/add`, plane);
+    let header = { 'Authorization': `Bearer ${this.authService.token}`};
+    return this.http.post<Plane>(`${this.apiServerUrl}/plane/add`, plane, {headers : header});
   }
 
   public updatePlane(plane: Plane): Observable<Plane> {
-    return this.http.put<Plane>(`${this.apiServerUrl}/plane/update`, plane);
+    let header = { 'Authorization': `Bearer ${this.authService.token}`};
+    return this.http.put<Plane>(`${this.apiServerUrl}/plane/update`, plane, {headers : header});
   }
 
   public deletePlane(planeId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiServerUrl}/plane/delete/${planeId}`);
+    let header = { 'Authorization': `Bearer ${this.authService.token}`};
+    return this.http.delete<void>(`${this.apiServerUrl}/plane/delete/${planeId}`, {headers : header});
   }
 }
