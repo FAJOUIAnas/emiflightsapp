@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Airport} from "../model/airport";
 import {AuthService} from "./authentication/auth.service";
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,5 +22,20 @@ export class AirportService {
   public getAirportByCode(airportCode: string): Observable<Airport> {
     let header = { 'Authorization': `Bearer ${this.authService.token}`};
     return this.http.get<Airport>(`${this.apiServerUrl}/airport/find/${airportCode}`, {headers: header});
+  }
+
+  public addAirport(airport: Airport): Observable<Airport> {
+    let header = { 'Authorization': `Bearer ${this.authService.token}`};
+    return this.http.post<Airport>(`${this.apiServerUrl}/airport/add`, airport, {headers : header});
+  }
+
+  public updateAirport(airport: Airport): Observable<Airport> {
+    let header = { 'Authorization': `Bearer ${this.authService.token}`};
+    return this.http.put<Airport>(`${this.apiServerUrl}/airport/update`, airport, {headers : header});
+  }
+
+  public deleteAirport(airportId: string): Observable<void> {
+    let header = { 'Authorization': `Bearer ${this.authService.token}`};
+    return this.http.delete<void>(`${this.apiServerUrl}/airport/delete/${airportId}`, {headers : header});
   }
 }

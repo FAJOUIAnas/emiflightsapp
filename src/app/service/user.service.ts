@@ -6,6 +6,11 @@ import {Plane} from "../model/plane";
 import {User} from "../model/user";
 import {AuthService} from "./authentication/auth.service";
 
+interface Credentials {
+  usernam: string
+  passwor: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -41,9 +46,4 @@ export class UserService {
     return this.http.delete<void>(`${this.apiServerUrl}/user/delete/${userId}`,
       {headers: header});
   }
-}
-
-interface Credentials {
-  usernam: string
-  passwor: string
 }
