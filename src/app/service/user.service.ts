@@ -4,6 +4,12 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Plane} from "../model/plane";
 import {User} from "../model/user";
+import {AuthService} from "./authentication/auth.service";
+
+interface Credentials {
+  usernam: string
+  passwor: string
+}
 
 @Injectable({
   providedIn: 'root'
@@ -11,31 +17,33 @@ import {User} from "../model/user";
 export class UserService {
 
   private apiServerUrl = environment.apiBaseUrl;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   public getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiServerUrl}/user/all`);
+    let header = { 'Authorization': `Bearer ${this.authService.token}`}
+    return this.http.get<User[]>(`${this.apiServerUrl}/user/all`, {headers: header});
   }
 
 
   public getUserByCredentials(username: string, password: string): Observable<User> {
-    return this.http.get<User>(`${this.apiServerUrl}/user/findByCre/${username}/${password}`);
+    let header = { 'Authorization': `Bearer ${this.authService.token}`}
+    return this.http.get<User>(`${this.apiServerUrl}/user/findByCre/${username}/${password}`,
+      {headers: header});
   }
 
   public addUser(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiServerUrl}/user/add`, user);
+    let header = { 'Authorization': `Bearer ${this.authService.token}`}
+    return this.http.post<User>(`${this.apiServerUrl}/user/add`, user, {headers: header});
   }
 
   public updateUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.apiServerUrl}/user/update`, user);
+    let header = { 'Authorization': `Bearer ${this.authService.token}`}
+    return this.http.put<User>(`${this.apiServerUrl}/user/update`, user, {headers: header});
   }
 
   public deleteUser(userId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiServerUrl}/user/delete/${userId}`);
+    let header = { 'Authorization': `Bearer ${this.authService.token}`}
+    return this.http.delete<void>(`${this.apiServerUrl}/user/delete/${userId}`,
+      {headers: header});
   }
-}
-
-interface Credentials {
-  usernam: string
-  passwor: string
 }

@@ -19,7 +19,6 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {LoginComponent} from "./login/login.component";
 import {AuthGuard} from "./service/authentication/auth.guard";
-import { RegisterComponent } from './register/register.component';
 import { ProfilComponent } from './profil/profil.component';
 import { PassengersComponent } from './passengers/passengers.component';
 
@@ -42,7 +41,6 @@ const appRoutes: Routes = [
     NavbarComponent,
     FlightComponent,
     LoginComponent,
-    RegisterComponent,
     ProfilComponent,
     PassengersComponent
   ],
