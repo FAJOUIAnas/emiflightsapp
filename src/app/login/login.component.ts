@@ -41,7 +41,6 @@ export class LoginComponent {
     this.authService.password = this.password
     console.log(`${this.username}  ${this.password}`)
     this.login(this.username, this.password)
-    this.router.navigate(["profil"])
   }
 
   onSubmit2(form: NgForm) {
@@ -55,7 +54,6 @@ export class LoginComponent {
     this.authService.password = this.user.password
     this.register(form.value["usernameR"], form.value["passwordR"], form.value["firstname"],
       form.value["lastname"])
-    this.router.navigate(["profil"])
   }
 
   /*this.authService
@@ -101,7 +99,7 @@ export class LoginComponent {
       this.authService.token = this.authService.appUsers.get(userFound)
       console.log(this.authService.token)
       this.authService.isLoggedIn = true
-
+      this.router.navigate(["profil"])
     }
 
     if (!this.authService.isLoggedIn){
@@ -114,7 +112,7 @@ export class LoginComponent {
             this.authService.isLoggedIn = true
             console.log(this.authService.token)
             console.log(this.authService.isLoggedIn)
-
+            this.router.navigate(["profil"])
           }
           else{
             this.authService.isLoggedIn = false
