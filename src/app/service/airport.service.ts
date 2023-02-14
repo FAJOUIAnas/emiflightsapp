@@ -15,8 +15,7 @@ export class AirportService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   public getAirports(): Observable<Airport[]> {
-    let header = { 'Authorization': `Bearer ${this.authService.token}`};
-    return this.http.get<Airport[]>(`${this.apiServerUrl}/airport/all`, {headers: header});
+    return this.http.get<Airport[]>(`${this.apiServerUrl}/airport/all`);
   }
 
   public getAirportByCode(airportCode: string): Observable<Airport> {
