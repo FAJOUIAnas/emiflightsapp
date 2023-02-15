@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="">
       <img src="/assets/brand/EMIFights-solid.png" width="41" height="37" class="d-inline-block align-center" alt="">
@@ -20,9 +20,32 @@
         </li>
       </ul>
     </div>
-    <form class="form-inline">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
   </div>
-</nav>
+</nav>-->
+
+
+
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Navbar</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="navbar.component.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
+</head>
+
+<header>
+  <a class="logo" routerLink="">
+    <img src="/assets/brand/EMIFights-solid.png" width="41" height="37" alt="">
+  </a>
+  <nav>
+    <ul class="nav__links">
+      <li><a routerLink="plane">Planes</a></li>
+      <li><a routerLink="login">Login</a></li>
+      <li><a routerLink="profil" *ngIf="authService.isLoggedIn">Profil</a></li>
+    </ul>
+  </nav>
+</header>
+<script type="text/javascript" src="navbar.component.ts"></script>
