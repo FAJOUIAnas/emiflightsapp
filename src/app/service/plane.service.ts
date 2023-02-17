@@ -26,4 +26,8 @@ export class PlaneService {
   public deletePlane(planeId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiServerUrl}/plane/delete/${planeId}`);
   }
+
+  public getNumberOfSeats(planeId: string, seatClassCode: string): Observable<number> {
+    return this.http.get<number>(`${this.apiServerUrl}/seats/get-number-of-seats/${planeId}/${seatClassCode}`);
+  }
 }

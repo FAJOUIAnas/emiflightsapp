@@ -18,6 +18,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import { PassengersComponent } from './passengers/passengers.component';
+import { SeatComponent } from './seat/seat.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 const appRoutes: Routes = [
   {path : '', component : SearchComponent},
@@ -25,7 +27,8 @@ const appRoutes: Routes = [
   {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers-adults/:nb-of-passengers-children/:re-date', component : FlightComponent},
   {path : 'plane', component : PlanesComponent},
   {path : 'passengers/:outbound-flight-id/:return-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent},
-  {path : 'passengers/:outbound-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent}
+  {path : 'passengers/:outbound-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent},
+  {path : 'seat', component : SeatComponent}
 ]
 @NgModule({
   declarations: [
@@ -34,23 +37,25 @@ const appRoutes: Routes = [
     PlanesComponent,
     NavbarComponent,
     FlightComponent,
-    PassengersComponent
+    PassengersComponent,
+    SeatComponent
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    MatRadioModule,
-    MatCardModule,
-    RouterModule,
-    RouterModule.forRoot(appRoutes),
-    MatAutocompleteModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        MatRadioModule,
+        MatCardModule,
+        RouterModule,
+        RouterModule.forRoot(appRoutes),
+        MatAutocompleteModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatTabsModule
+    ],
   providers: [
     PlaneService,
     MatDatepickerModule
