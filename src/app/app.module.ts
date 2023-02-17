@@ -21,6 +21,8 @@ import {LoginComponent} from "./login/login.component";
 import {AuthGuard} from "./service/authentication/auth.guard";
 import { ProfilComponent } from './profil/profil.component';
 import { PassengersComponent } from './passengers/passengers.component';
+import { SeatComponent } from './seat/seat.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 const appRoutes: Routes = [
   {path : '', component : SearchComponent},
@@ -30,8 +32,8 @@ const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'profil', component: ProfilComponent},
   {path : 'passengers/:outbound-flight-id/:return-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent},
-  {path : 'passengers/:outbound-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent}
-
+  {path : 'passengers/:outbound-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent},
+  {path : 'seat', component : SeatComponent}
 ]
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ const appRoutes: Routes = [
     PlanesComponent,
     NavbarComponent,
     FlightComponent,
+    SeatComponent,
     LoginComponent,
     ProfilComponent,
     PassengersComponent
@@ -57,7 +60,8 @@ const appRoutes: Routes = [
     MatInputModule,
     ReactiveFormsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTabsModule
   ],
   providers: [
     PlaneService,

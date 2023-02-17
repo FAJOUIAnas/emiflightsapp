@@ -9,9 +9,14 @@ import {Reservation} from "../model/reservation";
   providedIn: 'root'
 })
 export class ReservationService {
-
+  public outboundReservations: Reservation[] = [];
+  public returnReservations: Reservation[] = [];
   private apiServerUrl = environment.apiBaseUrl;
+
   constructor(private http: HttpClient, private authService: AuthService) { }
+
+  public getReservationsByFlightAndClass(flightId: string, seatClassCode: string): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.apiServerUrl}/reservation/find-by-flight-and-class/${flightId}/${seatClassCode}`);
 
   public getReservations(): Observable<Reservation[]> {
     let header = { 'Authorization': `Bearer ${this.authService.token}`};

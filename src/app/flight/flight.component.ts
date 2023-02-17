@@ -18,6 +18,7 @@ export class FlightComponent implements OnInit{
   public arrAirport!: Airport;
   public chosenOutboundFlight!: Flight;
   public chosenReturnFlight!: Flight;
+  public priceAddition: number = 1;
 
 
   constructor(private flightService: FlightService, private airportService: AirportService, private  route : ActivatedRoute, private router: Router) {}
@@ -70,14 +71,21 @@ export class FlightComponent implements OnInit{
     const arrAirport : string = this.route.snapshot.params['arr-airport'];
     const depDate : string = this.route.snapshot.params['dep-date'];
     const _class : string = this.route.snapshot.params['class'];
-    const nbOfPassengersAdults : number = this.route.snapshot.params['nb-of-passengers-adults'];
-    const nbOfPassengersChildren : number = this.route.snapshot.params['nb-of-passengers-children'];
+    const nbOfPassengersAdults : number = parseInt(this.route.snapshot.params['nb-of-passengers-adults']);
+    const nbOfPassengersChildren : number = parseInt(this.route.snapshot.params['nb-of-passengers-children']);
     this.reDate = this.route.snapshot.params['re-date'];
     this.searchOutboundFlights(depAirport, arrAirport, depDate, _class, nbOfPassengersAdults + nbOfPassengersChildren);
     if (this.reDate != undefined)
       this.searchReturnFlights(arrAirport, depAirport, this.reDate, _class, nbOfPassengersAdults + nbOfPassengersChildren);
 
     this.getCities(depAirport, arrAirport);
+
+    if(_class == "FST")
+      this.priceAddition = 7;
+    else if(_class == "BUSI")
+      this.priceAddition = 0.8;
+
+    this.priceAddition = this.priceAddition * (nbOfPassengersAdults + (nbOfPassengersChildren * 0.75))
   }
 
   public chooseOutboundFlight(outboundFlight: Flight) : void {

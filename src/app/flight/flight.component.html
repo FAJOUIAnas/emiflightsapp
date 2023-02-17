@@ -11,6 +11,16 @@
 </div>-->
 
 
+<nav>
+  <ol class="cd-multi-steps text-bottom count">
+    <li class="visited"><a href="#">Recherche</a></li>
+    <li class="current"><em>Vols</em></li>
+    <li><em>Passager</em></li>
+    <li><em>Siège</em></li>
+  </ol>
+</nav>
+
+
 
 <ul class="list-group">
   <div class="text-center mb-2-3 mb-lg-6" >
@@ -34,7 +44,7 @@
         </div>
       </div>
       <span class="bg-warning rounded-pill m-2 badge fs-6">
-        {{flight.flightGeneric.basePrice}} MAD
+        {{flight.flightGeneric.basePrice * this.priceAddition}} MAD
       </span>
     </button>
   </li>
@@ -58,7 +68,7 @@
       <div class="flex-column flex-1 m-2 d-flex">
         <div>Direct</div>
         <span class="fw-bold">
-      {{flight.flightGeneric.departureAirport.city}} ✈︎ {{flight.flightGeneric.arrivalAirport.city}}
+          {{flight.flightGeneric.departureAirport.city}} ✈︎ {{flight.flightGeneric.arrivalAirport.city}}
         </span>
         <span class="fw-bold" style="margin-left: 30px;">
           {{flight.flightGeneric.departureHour.slice(0,5)}} {{flight.flightGeneric.departureAirport.label}} ({{flight.flightGeneric.departureAirport.code}})<br>
@@ -69,7 +79,7 @@
         </div>
       </div>
       <span class="bg-warning rounded-pill m-2 badge fs-6">
-        {{flight.flightGeneric.basePrice}} MAD
+        {{flight.flightGeneric.basePrice * this.priceAddition}} MAD
       </span>
     </button>
   </li>
