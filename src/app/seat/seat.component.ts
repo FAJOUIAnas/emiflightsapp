@@ -4,6 +4,7 @@ import {Seat} from "../model/seat";
 import {PlaneService} from "../service/plane.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Reservation} from "../model/reservation";
+import * as jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-seat',
@@ -237,6 +238,9 @@ export class SeatComponent implements OnInit {
 
     this.checkker = true;
     return true
+  }
+
+  generateTicket() {
   }
 }
 

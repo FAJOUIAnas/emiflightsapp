@@ -6,6 +6,10 @@
   background-color: #f0f0f0;
 }
 
+.plane-bfp {
+  height: 200vh;
+}
+
 .seats-container {
   display: flex;
   flex-wrap: wrap;
@@ -16,7 +20,34 @@
   border-radius: 10px;
   overflow: hidden;
   padding: 15px;
-  margin-top: -35px;
+  margin-bottom: 35px;
+}
+
+.seats-container-bfp {
+  margin-top: 0px;
+}
+
+.seats-container-boeing777-fst {
+  padding: 47px;
+}
+
+.seats-container-airbusa330-eco-busi {
+  padding: 47px;
+}
+.seats-container-airbusa330-fst {
+  padding: 111px;
+}
+
+.seats-container-airbusa380-busi-fst {
+  padding: 111px;
+}
+
+.seats-container-boeing737-eco-busi {
+  padding: 79px;
+}
+
+.seats-container-boeing737-fst {
+  padding: 111px;
 }
 
 .row-letters {
@@ -41,6 +72,10 @@
   width: 10%;
   font-size: 15px;
   color: #333;
+}
+
+.row-numbers-bfp {
+  margin-top: -165px;
 }
 
 .col-number {
