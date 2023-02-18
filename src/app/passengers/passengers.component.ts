@@ -8,6 +8,7 @@ import {Civility} from "../model/civility";
 import {AgeGroup} from "../model/ageGroup";
 import {SeatClass} from "../model/seatClass";
 import {ReservationStatus} from "../model/reservationStatus";
+import {ReservationService} from "../service/reservation.service";
 
 @Component({
   selector: 'app-passengers',
@@ -17,20 +18,26 @@ import {ReservationStatus} from "../model/reservationStatus";
 export class PassengersComponent implements OnInit {
   public adultPassengers : Reservation[] = [];
   public childPassengers : Reservation[] = [];
-  public nbOfPassengersAdults !: string;
-  public nbOfPassengersChildren !: string;
+  public adultPassengersReturn : Reservation[] = [];
+  public childPassengersReturn : Reservation[] = [];
+  public nbOfPassengersAdults !: number;
+  public nbOfPassengersChildren !: number;
   public outboundFlight!: Flight;
+  public returnFlight!: Flight;
   public checkker: boolean = false;
   public clicked: boolean = false;
+  public priceAddition: number = 1;
+  public _class: string = "";
 
-  constructor(private  route : ActivatedRoute, private flightService: FlightService) {}
+  constructor(private route: ActivatedRoute, private flightService: FlightService, private router: Router, private reservationService: ReservationService) {
+  }
 
   ngOnInit(): void {
     const outboundFlightId : string = this.route.snapshot.params['outbound-flight-id'];
     const returnFlightId : string = this.route.snapshot.params['return-flight-id'];
-    this.nbOfPassengersAdults = this.route.snapshot.params['nb-of-passengers-adults'];
-    this.nbOfPassengersChildren = this.route.snapshot.params['nb-of-passengers-children'];
-    const _class : string = this.route.snapshot.params['class'];
+    this.nbOfPassengersAdults = parseInt(this.route.snapshot.params['nb-of-passengers-adults']);
+    this.nbOfPassengersChildren = parseInt(this.route.snapshot.params['nb-of-passengers-children']);
+    this._class = this.route.snapshot.params['class'];
 
     const today = new Date();
     const year = today.getFullYear();
@@ -42,18 +49,44 @@ export class PassengersComponent implements OnInit {
       (response: Flight) => {
         this.outboundFlight = response;
 
-        for(let i = 0; i < parseInt(this.nbOfPassengersAdults); i++) {
-          this.adultPassengers.push(new Reservation(this.outboundFlight, todayDate, todayDate, new Civility(), new AgeGroup("AD"), new SeatClass(_class), new ReservationStatus("SCHD"), this.outboundFlight.flightGeneric.basePrice));
+        for(let i = 0; i < this.nbOfPassengersAdults; i++) {
+          this.adultPassengers.push(new Reservation(this.outboundFlight, todayDate, todayDate, new Civility(), new AgeGroup("AD"), new SeatClass(this._class), new ReservationStatus("SCHD"), this.outboundFlight.flightGeneric.basePrice));
         }
 
-        for(let i = 0; i < parseInt(this.nbOfPassengersChildren); i++) {
-          this.childPassengers.push(new Reservation(this.outboundFlight, todayDate, todayDate, new Civility(), new AgeGroup("AD"), new SeatClass(_class), new ReservationStatus("SCHD"), this.outboundFlight.flightGeneric.basePrice));
+        for(let i = 0; i < this.nbOfPassengersChildren; i++) {
+          this.childPassengers.push(new Reservation(this.outboundFlight, todayDate, todayDate, new Civility(), new AgeGroup("CHD"), new SeatClass(this._class), new ReservationStatus("SCHD"), this.outboundFlight.flightGeneric.basePrice));
         }
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
       }
     );
+
+    if(returnFlightId != undefined) {
+      this.flightService.getFlightById(returnFlightId).subscribe(
+        (response: Flight) => {
+          this.returnFlight = response;
+
+          for(let i = 0; i < this.nbOfPassengersAdults; i++) {
+            this.adultPassengersReturn.push(new Reservation(this.returnFlight, todayDate, todayDate, new Civility(), new AgeGroup("AD"), new SeatClass(this._class), new ReservationStatus("SCHD"), this.returnFlight.flightGeneric.basePrice));
+          }
+
+          for(let i = 0; i < this.nbOfPassengersChildren; i++) {
+            this.childPassengersReturn.push(new Reservation(this.returnFlight, todayDate, todayDate, new Civility(), new AgeGroup("CHD"), new SeatClass(this._class), new ReservationStatus("SCHD"), this.returnFlight.flightGeneric.basePrice));
+          }
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+    }
+
+    if(this._class == "FST")
+      this.priceAddition = 7;
+    else if(this._class == "BUSI")
+      this.priceAddition = 0.8;
+
+    this.priceAddition = this.priceAddition * (this.nbOfPassengersAdults + (this.nbOfPassengersChildren * 0.75))
 
     // this.childPassengers = Array.from(Array(parseInt(this.nbOfPassengersChildren)),(x,i)=>i);
   }
@@ -68,6 +101,31 @@ export class PassengersComponent implements OnInit {
     }
     this.checkker = true;
     return true
+  }
+
+  public onContinue(reservations: Reservation[]): void {
+
+
+    if(this.returnFlight != undefined) {
+      for(let i = 0; i < reservations.slice(0, Math.floor(reservations.length / 2)).length; i++) {
+        reservations.slice(Math.floor(reservations.length / 2))[i].passengerCivility = reservations[i].passengerCivility;
+        reservations.slice(Math.floor(reservations.length / 2))[i].passengerLastName = reservations[i].passengerLastName;
+        reservations.slice(Math.floor(reservations.length / 2))[i].passengerFirstName = reservations[i].passengerFirstName;
+      }
+    }
+
+    if(this.check(reservations)) {
+      // const nbOfPassengersAdults : number = this.route.snapshot.params['nb-of-passengers-adults'];
+
+      if(this.returnFlight != undefined) {
+        this.reservationService.outboundReservations = reservations.slice(0, Math.floor(reservations.length / 2));
+        this.reservationService.returnReservations = reservations.slice(Math.floor(reservations.length / 2));
+      } else {
+        this.reservationService.outboundReservations = reservations;
+      }
+
+      this.router.navigate([`seat/`])
+    }
   }
 
 }
