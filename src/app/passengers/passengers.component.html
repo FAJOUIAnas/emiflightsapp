@@ -1,7 +1,7 @@
 <nav>
   <ol class="cd-multi-steps text-bottom count">
     <li class="visited"><a href="#">Recherche</a></li>
-    <li *ngIf="returnFlight == undefined" class="visited"><a  href="/searchflight/{{this.outboundFlight.flightGeneric.departureAirport.code}}/{{this.outboundFlight.flightGeneric.arrivalAirport.code}}/{{this.outboundFlight.departureDate}}/{{this._class}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/">Vols</a></li>
+    <li *ngIf="returnFlight == undefined" class="visited"><a routerLink="/searchflight/{{this.outboundFlight.flightGeneric.departureAirport.code}}/{{this.outboundFlight.flightGeneric.arrivalAirport.code}}/{{this.outboundFlight.departureDate}}/{{this._class}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/">Vols</a></li>
     <li *ngIf="returnFlight != undefined" class="visited"><a  href="/searchflight/{{this.outboundFlight.flightGeneric.departureAirport.code}}/{{this.outboundFlight.flightGeneric.arrivalAirport.code}}/{{this.outboundFlight.departureDate}}/{{this._class}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/{{this.returnFlight.departureDate}}">Vols</a></li>
     <li class="current"><em>Passager</em></li>
     <li><em>Siège</em></li>
