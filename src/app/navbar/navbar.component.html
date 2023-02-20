@@ -43,7 +43,7 @@
   <nav>
     <ul class="nav__links">
       <li><a routerLink="plane">Planes</a></li>
-      <li><a routerLink="login">Login</a></li>
+      <li><a *ngIf="!authService.isLoggedIn" (click)="authService.signUp()">Sign up</a></li>
       <li><a routerLink="profil" *ngIf="authService.isLoggedIn">Profil</a></li>
     </ul>
   </nav>

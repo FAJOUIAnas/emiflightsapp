@@ -50,10 +50,12 @@ export class LoginComponent {
     this.user.password = form.value["passwordR"]
     this.user.firstName = form.value["firstname"]
     this.user.lastName = form.value["lastname"]
+    this.user.email = form.value["email"]
+    this.user.adress = form.value["adress"]
     this.authService.username = this.user.username
     this.authService.password = this.user.password
     this.register(form.value["usernameR"], form.value["passwordR"], form.value["firstname"],
-      form.value["lastname"])
+      form.value["lastname"],form.value["email"],form.value["adress"])
   }
 
   /*this.authService
@@ -108,6 +110,7 @@ export class LoginComponent {
           if (!!data) {
             this.authService.token = data.token
             this.authService.tokens = data.tokens
+            // @ts-ignore
             this.authService.appUsers.set(data.userDetails, this.authService.token)
             this.authService.isLoggedIn = true
             console.log(this.authService.token)
@@ -126,8 +129,8 @@ export class LoginComponent {
     }
   }
 
-  register(username: string, password: string, firstname: string, lastname: string) {
-    this.authService.register(username, password, firstname, lastname).subscribe(
+  register(username: string, password: string, firstname: string, lastname: string, email: string, adress: string) {
+    this.authService.register(username, password, firstname, lastname, email, adress).subscribe(
       (data: User) => {
         console.log(data)
         this.login(data.username, data.password)
