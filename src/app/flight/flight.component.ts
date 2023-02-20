@@ -65,27 +65,37 @@ export class FlightComponent implements OnInit{
     );
   }
 
+  public airportDep !: string;
+  public airportArr !: string;
+  public depDate !: string;
+  public _class !: string;
+  public nbOfPassengersAdults : number = 0;
+  public nbOfPassengersChildren : number = 0;
   public reDate : string | undefined;
+  today!: string;
   ngOnInit(): void {
-    const depAirport : string = this.route.snapshot.params['dep-airport'];
-    const arrAirport : string = this.route.snapshot.params['arr-airport'];
-    const depDate : string = this.route.snapshot.params['dep-date'];
-    const _class : string = this.route.snapshot.params['class'];
-    const nbOfPassengersAdults : number = parseInt(this.route.snapshot.params['nb-of-passengers-adults']);
-    const nbOfPassengersChildren : number = parseInt(this.route.snapshot.params['nb-of-passengers-children']);
+
+    this.today = new Date().toISOString().substr(0, 10);
+
+    this.airportDep = this.route.snapshot.params['dep-airport'];
+    this.airportArr = this.route.snapshot.params['arr-airport'];
+    this.depDate = this.route.snapshot.params['dep-date'];
+    this._class = this.route.snapshot.params['class'];
+    this.nbOfPassengersAdults = parseInt(this.route.snapshot.params['nb-of-passengers-adults']);
+    this.nbOfPassengersChildren = parseInt(this.route.snapshot.params['nb-of-passengers-children']);
     this.reDate = this.route.snapshot.params['re-date'];
-    this.searchOutboundFlights(depAirport, arrAirport, depDate, _class, nbOfPassengersAdults + nbOfPassengersChildren);
+    this.searchOutboundFlights(this.airportDep, this.airportArr, this.depDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
     if (this.reDate != undefined)
-      this.searchReturnFlights(arrAirport, depAirport, this.reDate, _class, nbOfPassengersAdults + nbOfPassengersChildren);
+      this.searchReturnFlights(this.airportArr, this.airportDep, this.reDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
 
-    this.getCities(depAirport, arrAirport);
+    this.getCities(this.airportDep, this.airportArr);
 
-    if(_class == "FST")
+    if(this._class == "FST")
       this.priceAddition = 7;
-    else if(_class == "BUSI")
+    else if(this._class == "BUSI")
       this.priceAddition = 0.8;
 
-    this.priceAddition = this.priceAddition * (nbOfPassengersAdults + (nbOfPassengersChildren * 0.75))
+    this.priceAddition = this.priceAddition * (this.nbOfPassengersAdults + (this.nbOfPassengersChildren * 0.75))
   }
 
   public chooseOutboundFlight(outboundFlight: Flight) : void {
@@ -121,5 +131,14 @@ export class FlightComponent implements OnInit{
       this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/${_class}/${nbOfPassengers}`])
     else if (this.flightType == 'round-trip')
       this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/${_class}/${nbOfPassengers}/${reDate}`])*/
+  }
+
+  changeIfAfter() {
+    if(this.reDate != undefined) {
+      if(Date.parse(this.depDate) > Date.parse(this.reDate)) {
+        this.reDate = this.depDate;
+        this.searchReturnFlights(this.airportArr, this.airportDep, this.reDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
+      }
+    }
   }
 }

@@ -13,7 +13,7 @@
 
 <nav>
   <ol class="cd-multi-steps text-bottom count">
-    <li class="visited"><a href="#">Recherche</a></li>
+    <li class="visited"><a routerLink="/">Recherche</a></li>
     <li class="current"><em>Vols</em></li>
     <li><em>Passager</em></li>
     <li><em>Siège</em></li>
@@ -21,23 +21,36 @@
 </nav>
 
 
-
 <ul class="list-group">
-  <div class="text-center mb-2-3 mb-lg-6" >
+  <div class="text-center mb-2-3 mb-lg-6" style="display: flex; flex-direction: column; align-items: center">
     <h2></h2>
     <span class="section-title text-primary">Aller</span>
     <h2 class="h1 mb-0 text-secondary">{{depAirport?.city}} ✈ {{arrAirport?.city}}</h2>
+
+    <input
+      type="date"
+      class="form-control"
+      min="{{this.today}}"
+      [(ngModel)]="this.depDate"
+      (change)="this.searchOutboundFlights(this.airportDep, this.airportArr, this.depDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
+                this.changeIfAfter()"
+      style="width: 11.5%"
+    />
   </div>
-  <li *ngFor="let flight of outboundFlights" class="flex-column flex-sm-row list-group-item d-flex justify-content-between align-items-sm-center">
-    <button [ngClass]="{active: chosenOutboundFlight?.id == flight.id}" (click)="chooseOutboundFlight(flight)" class="list-group-item list-group-item-action list-group-item-action">
+  <li *ngFor="let flight of outboundFlights"
+      class="flex-column flex-sm-row list-group-item d-flex justify-content-between align-items-sm-center">
+    <button [ngClass]="{active: chosenOutboundFlight?.id == flight.id}" (click)="chooseOutboundFlight(flight)"
+            class="list-group-item list-group-item-action list-group-item-action">
       <div class="flex-column flex-1 m-2 d-flex">
         <div>Direct</div>
         <span class="fw-bold">
       {{flight.flightGeneric.departureAirport.city}} ✈︎ {{flight.flightGeneric.arrivalAirport.city}}
         </span>
         <span class="fw-bold" style="margin-left: 30px;">
-          {{flight.flightGeneric.departureHour.slice(0,5)}} {{flight.flightGeneric.departureAirport.label}} ({{flight.flightGeneric.departureAirport.code}})<br>
-          {{flight.flightGeneric.arrivalHour.slice(0,5)}} ︎{{flight.flightGeneric.arrivalAirport.label}} ({{flight.flightGeneric.arrivalAirport.code}})
+          {{flight.flightGeneric.departureHour.slice(0, 5)}} {{flight.flightGeneric.departureAirport.label}}
+          ({{flight.flightGeneric.departureAirport.code}})<br>
+          {{flight.flightGeneric.arrivalHour.slice(0, 5)}} ︎{{flight.flightGeneric.arrivalAirport.label}}
+          ({{flight.flightGeneric.arrivalAirport.code}})
         </span>
         <div>
           Durée
@@ -58,21 +71,35 @@
 </div>
 
 <div class="list-group" *ngIf="reDate != undefined">
-  <div class="text-center mb-2-3 mb-lg-6" >
+  <div class="text-center mb-2-3 mb-lg-6" style="display: flex; flex-direction: column; align-items: center">
     <h2></h2>
     <span class="section-title text-primary">Retour</span>
     <h2 class="h1 mb-0 text-secondary">{{arrAirport?.city}} ✈ {{depAirport?.city}}</h2>
+
+    <input
+      type="date"
+      class="form-control"
+      min="{{this.depDate}}"
+      [(ngModel)]="this.reDate"
+      (change)="this.searchReturnFlights(this.airportArr, this.airportDep, this.reDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);"
+      style="width: 11.5%"
+    />
+
   </div>
-  <li *ngFor="let flight of returnFlights" class="flex-column flex-sm-row list-group-item d-flex justify-content-between align-items-sm-center">
-    <button [ngClass]="{active: chosenReturnFlight?.id == flight.id}" (click)="chooseReturnFlight(flight)" class="list-group-item list-group-item-action list-group-item-action">
+  <li *ngFor="let flight of returnFlights"
+      class="flex-column flex-sm-row list-group-item d-flex justify-content-between align-items-sm-center">
+    <button [ngClass]="{active: chosenReturnFlight?.id == flight.id}" (click)="chooseReturnFlight(flight)"
+            class="list-group-item list-group-item-action list-group-item-action">
       <div class="flex-column flex-1 m-2 d-flex">
         <div>Direct</div>
         <span class="fw-bold">
           {{flight.flightGeneric.departureAirport.city}} ✈︎ {{flight.flightGeneric.arrivalAirport.city}}
         </span>
         <span class="fw-bold" style="margin-left: 30px;">
-          {{flight.flightGeneric.departureHour.slice(0,5)}} {{flight.flightGeneric.departureAirport.label}} ({{flight.flightGeneric.departureAirport.code}})<br>
-          {{flight.flightGeneric.arrivalHour.slice(0,5)}} ︎{{flight.flightGeneric.arrivalAirport.label}} ({{flight.flightGeneric.arrivalAirport.code}})
+          {{flight.flightGeneric.departureHour.slice(0, 5)}} {{flight.flightGeneric.departureAirport.label}}
+          ({{flight.flightGeneric.departureAirport.code}})<br>
+          {{flight.flightGeneric.arrivalHour.slice(0, 5)}} ︎{{flight.flightGeneric.arrivalAirport.label}}
+          ({{flight.flightGeneric.arrivalAirport.code}})
         </span>
         <div>
           Durée
@@ -95,14 +122,14 @@
 <div class="d-flex" style="margin-right: 25px;">
   <button *ngIf="chosenReturnFlight != undefined" class="btn btn-primary ml-auto btn-lg"
           [disabled]="(chosenOutboundFlight == undefined) || (reDate != undefined && (chosenOutboundFlight == undefined || chosenReturnFlight == undefined))"
-          (click) = "onChooseFlights(chosenOutboundFlight.id, chosenReturnFlight.id)"
+          (click)="onChooseFlights(chosenOutboundFlight.id, chosenReturnFlight.id)"
   >
     Continue
   </button>
 
   <button *ngIf="chosenReturnFlight == undefined" class="btn btn-primary ml-auto btn-lg"
           [disabled]="(chosenOutboundFlight == undefined) || (reDate != undefined && (chosenOutboundFlight == undefined || chosenReturnFlight == undefined))"
-          (click) = "onChooseFlight(chosenOutboundFlight.id)"
+          (click)="onChooseFlight(chosenOutboundFlight.id)"
   >
     Continue
   </button>

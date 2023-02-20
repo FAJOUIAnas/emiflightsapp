@@ -15,7 +15,10 @@ export class SearchComponent implements OnInit{
   public airports : Airport[] = [];
   date: Date = new Date();
   today!: string;
+  today2!: string;
   flightType: string = 'one-way';
+
+  isBeforeDate: boolean = false;
   constructor(private route: Router, private airportService : AirportService) {
   }
 
@@ -42,6 +45,7 @@ export class SearchComponent implements OnInit{
 
   ngOnInit() {
     this.today = this.date.toISOString().substr(0, 10);
+    this.today2 = this.date.toISOString().substr(0, 10);
 
     this.getAirports();
     this.filteredOptions = this.control.valueChanges.pipe(
@@ -61,5 +65,10 @@ export class SearchComponent implements OnInit{
     const filterValue = city.toLowerCase();
 
     return this.airports.filter(airport => airport.city.toLowerCase().includes(filterValue));
+  }
+
+  isBefore(date1: string, date2: string): boolean {
+    console.log(Date.parse(date1) < Date.parse(date2))
+    return Date.parse(date1) < Date.parse(date2);
   }
 }
