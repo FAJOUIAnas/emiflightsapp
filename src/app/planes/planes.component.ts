@@ -19,7 +19,6 @@ export class PlanesComponent implements OnInit {
 
   secondFunction = async () => {
     await this.authService.isAuthenticated()
-    this.getPlanes();
   }
 
   ngOnInit() {
