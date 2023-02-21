@@ -71,6 +71,7 @@ export class ProfilComponent {
           // @ts-ignore
           this.image = this.PROFILE_PIC_USERS.at(this.n)
           this.user = response;
+          this._authService.currentUser = response;
         },
         (error: HttpErrorResponse) => {
           alert(error.message);

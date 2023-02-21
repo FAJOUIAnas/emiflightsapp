@@ -4,7 +4,10 @@ import {Seat} from "../model/seat";
 import {PlaneService} from "../service/plane.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Reservation} from "../model/reservation";
-import * as jsPDF from 'jspdf';
+import {Router} from "@angular/router";
+import Swal from 'sweetalert2';
+import jsPDF from "jspdf";
+import {Plane} from "../model/plane";
 
 @Component({
   selector: 'app-seat',
@@ -27,7 +30,7 @@ export class SeatComponent implements OnInit {
   checkker: boolean = (this.rowsReturn.length == 0);
   public clicked: boolean = false;
   public priceAddition: number = 1;
-  constructor(public reservationService: ReservationService) {}
+  constructor(public reservationService: ReservationService, private router: Router) {}
 
   ngOnInit(): void {
     let rowsOutboundStart: number = 0, rowsOutboundFinish: number = 0;
@@ -240,7 +243,160 @@ export class SeatComponent implements OnInit {
     return true
   }
 
-  generateTicket() {
+  onContinue(): void {
+    if(this.check() == true) {
+      for(let i = 0; i < this.reservationService.outboundReservations.length; i++) {
+        this.reservationService.outboundReservations[i].seatNumber = this.outboundSelectedSeats[i].row.toString() + "-" + this.outboundSelectedSeats[i].column;
+
+        this.reservationService.addReservation(this.reservationService.outboundReservations[i]).subscribe(
+          (response: Reservation) => {
+            console.log(response)
+          },
+          (error: HttpErrorResponse) => {
+            alert(error.message);
+          }
+        );
+      }
+
+      if(this.reservationService.returnReservations.length != 0) {
+        for(let i = 0; i < this.reservationService.returnReservations.length; i++) {
+          this.reservationService.returnReservations[i].seatNumber = this.returnSelectedSeats[i].row.toString() + "-" + this.returnSelectedSeats[i].column;
+
+          this.reservationService.addReservation(this.reservationService.returnReservations[i]).subscribe(
+            (response: Reservation) => {
+              console.log(response)
+            },
+            (error: HttpErrorResponse) => {
+              alert(error.message);
+            }
+          );
+        }
+      }
+      // this.router.navigate([`ticket/`])
+    }
+  }
+
+
+  successNotification() {
+    Swal.fire({
+      title: 'Votre réservation a été créée avec succès.',
+      icon: 'success',
+      confirmButtonText: 'Générer les billets',
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: 'btn btn-success mx-2'
+      },
+    }).then(() => {
+      for(let i = 0; i < this.reservationService.outboundReservations.length; i++) {
+        this.generateTicket(i);
+      }
+      this.router.navigate([`/`]);
+    });
+  }
+
+
+  generateTicket(i: number) {
+    const ticket = new jsPDF();
+    const ticketWidth = 210; // Width of A4 paper in mm
+    const ticketHeight = 100; // Height of the ticket in mm
+    const xMargin = 10;
+    const yMargin = 10;
+
+    // Add the airline logo
+    const img = new Image();
+    img.src = '../assets/brand/EMIFights-solid.png';
+    ticket.addImage(img, 'PNG', xMargin, yMargin, 30, 30);
+
+    // Add the airline name and flight information
+    ticket.setFontSize(14);
+    ticket.text('EMI Flights', 40, 20);
+
+    let fakeFlightId = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const charactersLength = characters.length;
+
+    for (let i = 0; i < 2; i++) {
+      fakeFlightId += characters.charAt(Math.floor(Math.random() * 26)); // Generates a random capital letter
+    }
+
+    for (let i = 0; i < 5; i++) {
+      fakeFlightId += Math.floor(Math.random() * 10).toString(); // Generates a random number or capital letter
+    }
+
+    ticket.text(`Flight Number: ${fakeFlightId}`, 40, 30);
+    ticket.text(`From: ${this.reservationService.outboundReservations[i].flight.flightGeneric.departureAirport.city}`, 40, 40);
+    ticket.text(`To: ${this.reservationService.outboundReservations[i].flight.flightGeneric.arrivalAirport.city}`, 40, 50);
+    ticket.text(`Departure Time: ${this.reservationService.outboundReservations[i].flight.flightGeneric.departureHour}`, 40, 60);
+    ticket.text(`Arrival Time: ${this.reservationService.outboundReservations[i].flight.flightGeneric.arrivalHour}`, 40, 70);
+
+    // Add the passenger name and seat number
+    ticket.setFontSize(12);
+    ticket.text(`Passenger Name: ${this.reservationService.outboundReservations[i].passengerFirstName} ${this.reservationService.outboundReservations[i].passengerLastName}`, 100, 30);
+    ticket.text(`Seat Number: ${this.reservationService.outboundReservations[i].seatNumber}`, 100, 40);
+
+    // Add the boarding pass barcode
+    ticket.setFontSize(8);
+    ticket.text('Boarding Pass Barcode', 140, 50);
+    ticket.rect(140, 60, 50, 20);
+
+    const barcode = new Image();
+    barcode.src = '../assets/fakeBarcode.png';
+    ticket.addImage(barcode, 'PNG', 141, 61, 49, 19);
+
+    // Save the PDF
+    ticket.save(`plane-ticket-${this.reservationService.outboundReservations[i].passengerFirstName}.pdf`);
+
+    if(this.reservationService.returnReservations.length != 0) {
+      const ticket = new jsPDF();
+      const ticketWidth = 210; // Width of A4 paper in mm
+      const ticketHeight = 100; // Height of the ticket in mm
+      const xMargin = 10;
+      const yMargin = 10;
+
+      // Add the airline logo
+      const img = new Image();
+      img.src = '../assets/brand/EMIFights-solid.png';
+      ticket.addImage(img, 'PNG', xMargin, yMargin, 30, 30);
+
+      // Add the airline name and flight information
+      ticket.setFontSize(14);
+      ticket.text('EMI Flights', 40, 20);
+
+      let fakeFlightId = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const charactersLength = characters.length;
+
+      for (let i = 0; i < 2; i++) {
+        fakeFlightId += characters.charAt(Math.floor(Math.random() * 26)); // Generates a random capital letter
+      }
+
+      for (let i = 0; i < 5; i++) {
+        fakeFlightId += Math.floor(Math.random() * 10).toString(); // Generates a random number or capital letter
+      }
+
+      ticket.text(`Flight Number: ${fakeFlightId}`, 40, 30);
+      ticket.text(`From: ${this.reservationService.returnReservations[i].flight.flightGeneric.departureAirport.city}`, 40, 40);
+      ticket.text(`To: ${this.reservationService.returnReservations[i].flight.flightGeneric.arrivalAirport.city}`, 40, 50);
+      ticket.text(`Departure Time: ${this.reservationService.returnReservations[i].flight.flightGeneric.departureHour}`, 40, 60);
+      ticket.text(`Arrival Time: ${this.reservationService.returnReservations[i].flight.flightGeneric.arrivalHour}`, 40, 70);
+
+      // Add the passenger name and seat number
+      ticket.setFontSize(12);
+      ticket.text(`Passenger Name: ${this.reservationService.returnReservations[i].passengerFirstName} ${this.reservationService.returnReservations[i].passengerLastName}`, 100, 30);
+      ticket.text(`Seat Number: ${this.reservationService.returnReservations[i].seatNumber}`, 100, 40);
+
+      // Add the boarding pass barcode
+      ticket.setFontSize(8);
+      ticket.text('Boarding Pass Barcode', 140, 50);
+      ticket.rect(140, 60, 50, 20);
+
+      const barcode = new Image();
+      barcode.src = '../assets/fakeBarcode.png';
+      ticket.addImage(barcode, 'PNG', 141, 61, 49, 19);
+
+      // Save the PDF
+      ticket.save(`plane-ticket-${this.reservationService.returnReservations[i].passengerFirstName}-retour.pdf`);
+    }
   }
 }
 
