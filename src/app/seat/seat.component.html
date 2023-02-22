@@ -87,7 +87,8 @@
         'seats-container-boeing737-eco-busi': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Boeing 737' && (this.reservationService.outboundReservations[0].seatClass.code == 'ECO' || this.reservationService.outboundReservations[0].seatClass.code == 'BUSI'),
         'seats-container-boeing737-fst': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Boeing 737' && this.reservationService.outboundReservations[0].seatClass.code == 'FST',
 
-        'seats-container-bfp': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Airbus A380'}">
+        'seats-container-bfp': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Airbus A380'
+        }">
           <div class="row-letters">
             <div class="col-letter" *ngFor="let col of colsOutbound">{{col}}</div>
           </div>
@@ -117,24 +118,24 @@
     </mat-tab>
     <div *ngIf="this.reservationService.returnReservations.length > 0">
       <mat-tab label="Retour">
-        <div class="plane" [ngClass]="{'plane-bfp': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Airbus A380'}">
-          <div class="row-numbers" [ngClass]="{'row-numbers': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Airbus A380'}">
+        <div class="plane" [ngClass]="{'plane-bfp': this.reservationService.returnReservations[0].flight.flightGeneric.plane.model == 'Airbus A380'}">
+          <div class="row-numbers" [ngClass]="{'row-numbers': this.reservationService.returnReservations[0].flight.flightGeneric.plane.model == 'Airbus A380'}">
             <div *ngFor="let i of rowsReturn">
               <div class="col-number">{{i}}</div>
             </div>
           </div>
           <div class="seats-container" [ngClass]="{
-        'seats-container-boeing777-fst': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Boeing 777' && this.reservationService.outboundReservations[0].seatClass.code == 'FST',
+        'seats-container-boeing777-fst': this.reservationService.returnReservations[0].flight.flightGeneric.plane.model == 'Boeing 777' && this.reservationService.outboundReservations[0].seatClass.code == 'FST',
 
-        'seats-container-airbusa330-eco-busi': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Airbus A330' && (this.reservationService.outboundReservations[0].seatClass.code == 'ECO' || this.reservationService.outboundReservations[0].seatClass.code == 'BUSI'),
-        'seats-container-airbusa330-fst': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Airbus A330' && this.reservationService.outboundReservations[0].seatClass.code == 'FST',
+        'seats-container-airbusa330-eco-busi': this.reservationService.returnReservations[0].flight.flightGeneric.plane.model == 'Airbus A330' && (this.reservationService.outboundReservations[0].seatClass.code == 'ECO' || this.reservationService.outboundReservations[0].seatClass.code == 'BUSI'),
+        'seats-container-airbusa330-fst': this.reservationService.returnReservations[0].flight.flightGeneric.plane.model == 'Airbus A330' && this.reservationService.outboundReservations[0].seatClass.code == 'FST',
 
-        'seats-container-airbusa380-busi-fst': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Airbus A380' && (this.reservationService.outboundReservations[0].seatClass.code == 'BUSI' || this.reservationService.outboundReservations[0].seatClass.code == 'FST'),
+        'seats-container-airbusa380-busi-fst': this.reservationService.returnReservations[0].flight.flightGeneric.plane.model == 'Airbus A380' && (this.reservationService.outboundReservations[0].seatClass.code == 'BUSI' || this.reservationService.outboundReservations[0].seatClass.code == 'FST'),
 
-        'seats-container-boeing737-eco-busi': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Boeing 737' && (this.reservationService.outboundReservations[0].seatClass.code == 'ECO' || this.reservationService.outboundReservations[0].seatClass.code == 'BUSI'),
-        'seats-container-boeing737-fst': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Boeing 737' && this.reservationService.outboundReservations[0].seatClass.code == 'FST',
+        'seats-container-boeing737-eco-busi': this.reservationService.returnReservations[0].flight.flightGeneric.plane.model == 'Boeing 737' && (this.reservationService.outboundReservations[0].seatClass.code == 'ECO' || this.reservationService.outboundReservations[0].seatClass.code == 'BUSI'),
+        'seats-container-boeing737-fst': this.reservationService.returnReservations[0].flight.flightGeneric.plane.model == 'Boeing 737' && this.reservationService.outboundReservations[0].seatClass.code == 'FST',
 
-        'seats-container-bfp': this.reservationService.outboundReservations[0].flight.flightGeneric.plane.model == 'Airbus A380'}">
+        'seats-container-bfp': this.reservationService.returnReservations[0].flight.flightGeneric.plane.model == 'Airbus A380'}">
             <div class="row-letters">
               <div class="col-letter" *ngFor="let col of colsReturn">{{col}}</div>
             </div>
