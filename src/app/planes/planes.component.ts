@@ -17,7 +17,7 @@ export class PlanesComponent implements OnInit {
   constructor(private planeService: PlaneService) { }
 
   ngOnInit() {
-    this.getPlanes();
+      this.getPlanes();
   }
 
   public getPlanes(): void {

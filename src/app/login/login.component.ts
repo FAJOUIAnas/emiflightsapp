@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {NgForm} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../service/authentication/auth.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {User} from "../model/user";
 import {AuthGuard} from "../service/authentication/auth.guard";
-import { ViewChild } from '@angular/core';
-import * as $ from 'jquery';
 import 'bootstrap';
 
 
@@ -22,7 +20,7 @@ export class LoginComponent {
   image!: string
   isSignUpForm: boolean = false
   user: User = new User("", "","", "", "", "", "", "",
-    "", "")
+    "")
   url!: string
 
   ngOnInit(){

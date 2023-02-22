@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ReservationService} from "../service/reservation.service";
 import {Seat} from "../model/seat";
-import {PlaneService} from "../service/plane.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Reservation} from "../model/reservation";
 import {Router} from "@angular/router";
 import Swal from 'sweetalert2';
 import jsPDF from "jspdf";
-import {Plane} from "../model/plane";
+import {AuthService} from "../service/authentication/auth.service";
 
 @Component({
   selector: 'app-seat',
@@ -30,7 +29,7 @@ export class SeatComponent implements OnInit {
   checkker: boolean = (this.rowsReturn.length == 0);
   public clicked: boolean = false;
   public priceAddition: number = 1;
-  constructor(public reservationService: ReservationService, private router: Router) {}
+  constructor(public reservationService: ReservationService, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     let rowsOutboundStart: number = 0, rowsOutboundFinish: number = 0;
@@ -189,6 +188,8 @@ export class SeatComponent implements OnInit {
       this.priceAddition = 0.8;
     this.priceAddition = this.priceAddition * (this.nbOfPassengersAdults + (this.nbOfPassengersChildren * 0.75))
 
+    this.priceAddition = Number(this.priceAddition.toFixed(0))
+
   }
 
   selectOutboundSeat(seat: Seat, indexOfPasseneger: number): void {
@@ -244,9 +245,10 @@ export class SeatComponent implements OnInit {
   }
 
   onContinue(): void {
-    if(this.check() == true) {
+    if(this.check()) {
       for(let i = 0; i < this.reservationService.outboundReservations.length; i++) {
         this.reservationService.outboundReservations[i].seatNumber = this.outboundSelectedSeats[i].row.toString() + "-" + this.outboundSelectedSeats[i].column;
+        this.reservationService.outboundReservations[i].user.id = this.authService.currentUser.id;
 
         this.reservationService.addReservation(this.reservationService.outboundReservations[i]).subscribe(
           (response: Reservation) => {
@@ -261,6 +263,7 @@ export class SeatComponent implements OnInit {
       if(this.reservationService.returnReservations.length != 0) {
         for(let i = 0; i < this.reservationService.returnReservations.length; i++) {
           this.reservationService.returnReservations[i].seatNumber = this.returnSelectedSeats[i].row.toString() + "-" + this.returnSelectedSeats[i].column;
+          this.reservationService.returnReservations[i].user.id = this.authService.currentUser.id;
 
           this.reservationService.addReservation(this.reservationService.returnReservations[i]).subscribe(
             (response: Reservation) => {
@@ -296,9 +299,11 @@ export class SeatComponent implements OnInit {
 
 
   generateTicket(i: number) {
-    const ticket = new jsPDF();
-    const ticketWidth = 210; // Width of A4 paper in mm
-    const ticketHeight = 100; // Height of the ticket in mm
+    const ticket = new jsPDF({
+      orientation: 'landscape',
+      unit: 'mm',
+      format: [210, 120],
+    });
     const xMargin = 10;
     const yMargin = 10;
 
@@ -313,7 +318,6 @@ export class SeatComponent implements OnInit {
 
     let fakeFlightId = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const charactersLength = characters.length;
 
     for (let i = 0; i < 2; i++) {
       fakeFlightId += characters.charAt(Math.floor(Math.random() * 26)); // Generates a random capital letter
@@ -326,8 +330,8 @@ export class SeatComponent implements OnInit {
     ticket.text(`Flight Number: ${fakeFlightId}`, 40, 30);
     ticket.text(`From: ${this.reservationService.outboundReservations[i].flight.flightGeneric.departureAirport.city}`, 40, 40);
     ticket.text(`To: ${this.reservationService.outboundReservations[i].flight.flightGeneric.arrivalAirport.city}`, 40, 50);
-    ticket.text(`Departure Time: ${this.reservationService.outboundReservations[i].flight.flightGeneric.departureHour}`, 40, 60);
-    ticket.text(`Arrival Time: ${this.reservationService.outboundReservations[i].flight.flightGeneric.arrivalHour}`, 40, 70);
+    ticket.text(`Departure Time: ${this.reservationService.outboundReservations[i].flight.flightGeneric.departureHour} (${this.reservationService.outboundReservations[i].flight.flightGeneric.departureTerminal.label})`, 40, 60);
+    ticket.text(`Arrival Time: ${this.reservationService.outboundReservations[i].flight.flightGeneric.arrivalHour} (${this.reservationService.outboundReservations[i].flight.flightGeneric.arrivalTerminal.label})`, 40, 70);
 
     // Add the passenger name and seat number
     ticket.setFontSize(12);
@@ -336,20 +340,22 @@ export class SeatComponent implements OnInit {
 
     // Add the boarding pass barcode
     ticket.setFontSize(8);
-    ticket.text('Boarding Pass Barcode', 140, 50);
-    ticket.rect(140, 60, 50, 20);
+    ticket.text('Boarding Pass Barcode', 140, 80);
+    ticket.rect(140, 85, 50, 20);
 
     const barcode = new Image();
     barcode.src = '../assets/fakeBarcode.png';
-    ticket.addImage(barcode, 'PNG', 141, 61, 49, 19);
+    ticket.addImage(barcode, 'PNG', 140, 85, 50, 20);
 
     // Save the PDF
     ticket.save(`plane-ticket-${this.reservationService.outboundReservations[i].passengerFirstName}.pdf`);
 
     if(this.reservationService.returnReservations.length != 0) {
-      const ticket = new jsPDF();
-      const ticketWidth = 210; // Width of A4 paper in mm
-      const ticketHeight = 100; // Height of the ticket in mm
+      const ticket = new jsPDF({
+        orientation: 'landscape',
+        unit: 'mm',
+        format: [210, 120],
+      });
       const xMargin = 10;
       const yMargin = 10;
 
@@ -364,7 +370,6 @@ export class SeatComponent implements OnInit {
 
       let fakeFlightId = '';
       const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      const charactersLength = characters.length;
 
       for (let i = 0; i < 2; i++) {
         fakeFlightId += characters.charAt(Math.floor(Math.random() * 26)); // Generates a random capital letter
