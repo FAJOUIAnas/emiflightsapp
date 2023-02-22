@@ -18,16 +18,25 @@ export class LoginComponent {
   username!: string
   password!: string
   image!: string
-  isSignUpForm: boolean = false
+  isSignUpForm: boolean = true
   user: User = new User("", "","", "", "", "", "", "",
     "")
   url!: string
 
-  ngOnInit(){
-    console.log(this.authService.appUsers)
+
+  get authService(): AuthService {
+    return this._authService;
   }
 
-  constructor(private authService: AuthService, private router: Router,private guard: AuthGuard,
+  set authService(value: AuthService) {
+    this._authService = value;
+  }
+
+  ngOnInit(){
+    console.log(this._authService.appUsers)
+  }
+
+  constructor(private _authService: AuthService, private router: Router, private guard: AuthGuard,
               private route: ActivatedRoute) {}
 
   onSubmit(f: NgForm){
@@ -35,8 +44,8 @@ export class LoginComponent {
     this.user.password = f.value['password']
     this.username = this.user.username
     this.password = this.user.password
-    this.authService.username = this.username
-    this.authService.password = this.password
+    this._authService.username = this.username
+    this._authService.password = this.password
     console.log(`${this.username}  ${this.password}`)
     this.login(this.username, this.password)
   }
@@ -48,10 +57,12 @@ export class LoginComponent {
     this.user.password = form.value["passwordR"]
     this.user.firstName = form.value["firstname"]
     this.user.lastName = form.value["lastname"]
-    this.authService.username = this.user.username
-    this.authService.password = this.user.password
+    this.user.email = form.value["email"]
+    this.user.adress = form.value["adress"]
+    this._authService.username = this.user.username
+    this._authService.password = this.user.password
     this.register(form.value["usernameR"], form.value["passwordR"], form.value["firstname"],
-      form.value["lastname"])
+      form.value["lastname"],form.value["email"],form.value["adress"])
   }
 
   /*this.authService
@@ -85,7 +96,7 @@ export class LoginComponent {
     }*/
 
     // @ts-ignore
-    for (let user of this.authService.appUsers.keys()){
+    for (let user of this._authService.appUsers.keys()){
       if (user.username === username){
         found = true
         userFound = user
@@ -94,26 +105,27 @@ export class LoginComponent {
     }
     if (found){
       // @ts-ignore
-      this.authService.token = this.authService.appUsers.get(userFound)
-      console.log(this.authService.token)
-      this.authService.isLoggedIn = true
+      this._authService.token = this._authService.appUsers.get(userFound)
+      console.log(this._authService.token)
+      this._authService.isLoggedIn = true
       this.router.navigate(["profil"])
     }
 
-    if (!this.authService.isLoggedIn){
-      this.authService.authenticate(username, password).subscribe(
+    if (!this._authService.isLoggedIn){
+      this._authService.authenticate(username, password).subscribe(
         (data: any) => {
           if (!!data) {
-            this.authService.token = data.token
-            this.authService.tokens = data.tokens
-            this.authService.appUsers.set(data.userDetails, this.authService.token)
-            this.authService.isLoggedIn = true
-            console.log(this.authService.token)
-            console.log(this.authService.isLoggedIn)
+            this._authService.token = data.token
+            this._authService.tokens = data.tokens
+            // @ts-ignore
+            this._authService.appUsers.set(data.userDetails, this._authService.token)
+            this._authService.isLoggedIn = true
+            console.log(this._authService.token)
+            console.log(this._authService.isLoggedIn)
             this.router.navigate(["profil"])
           }
           else{
-            this.authService.isLoggedIn = false
+            this._authService.isLoggedIn = false
             alert("Wrong credentials")
           }
         },
@@ -124,8 +136,8 @@ export class LoginComponent {
     }
   }
 
-  register(username: string, password: string, firstname: string, lastname: string) {
-    this.authService.register(username, password, firstname, lastname).subscribe(
+  register(username: string, password: string, firstname: string, lastname: string, email: string, adress: string) {
+    this._authService.register(username, password, firstname, lastname, email, adress).subscribe(
       (data: User) => {
         console.log(data)
         this.login(data.username, data.password)

@@ -3,6 +3,7 @@ import {Plane} from "../model/plane";
 import {PlaneService} from "../service/plane.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
+import {AuthService} from "../service/authentication/auth.service";
 
 @Component({
   selector: 'app-planes',
@@ -14,10 +15,14 @@ export class PlanesComponent implements OnInit {
   public editPlane!: Plane;
   public deletePlane!: Plane;
 
-  constructor(private planeService: PlaneService) { }
+  constructor(private planeService: PlaneService, private authService: AuthService) { }
+
+  secondFunction = async () => {
+    await this.authService.isAuthenticated()
+  }
 
   ngOnInit() {
-      this.getPlanes();
+    this.secondFunction()
   }
 
   public getPlanes(): void {
