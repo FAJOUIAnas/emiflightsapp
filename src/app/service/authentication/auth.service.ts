@@ -110,14 +110,14 @@ export class AuthService {
 
         let found
         let userFound
-        for (let user of this.appUsers.keys()){
-          if (user.username === username){
+        for (let user of this.appUsers.keys()) {
+          if (user.username === username) {
             found = true
             userFound = user
             break;
           }
         }
-        if (found){
+        if (found) {
 
           // @ts-ignore
           this.token = this.appUsers.get(userFound)
@@ -131,58 +131,66 @@ export class AuthService {
           return;
         }
 
-        return fetch('http://localhost:8080/auth/authenticate', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            email: username,
-            password: password
-          })
-        }).then(res => res.json())
-          .then(data => {
-            this.token = data.token
-            this.tokens = data.tokens
-            if(this.token == undefined) {
-              /*Swal.fire({
-                title: 'Authentication failed. Please try again.',
-                html:``,
-                icon: "error"
-              })*/
-              //Swal.showValidationMessage(`Authentication failed. Please try again.`)
-            }
-            // @ts-ignore
-            if (this.token != undefined){
-              this.appUsers.set(data.userDetails, this.token)
-              this.isLoggedIn = true
-            }
-            console.log(this.token)
-            console.log(this.isLoggedIn)
-            if (this.isLoggedIn){
-              Swal.fire(
-                'You are authenticated!',
-                `<p>Welcome ${this.username}</p>`,
-                'success'
-              )
-            }
-            else {
-              Swal.fire({
-                  title: 'Authentication failed. Please try again.',
-                  html: ``,
-                  icon: "error",
-                  preConfirm: () => this.isAuthenticated()
-                }
-              );
-            }
-          })
-          .catch(error => {
-            console.log('Error:', error);
-            this.isLoggedIn = false
-            console.log(`in authenticate ${this._isLoggedIn}`)
-            Swal.showValidationMessage(`Authentication failed. Please try again.`)
-          });
+        return this.toLogIn(username, password)
+
       }
     });
   }
+
+
+  toLogIn(username: string, password: string){
+    return fetch('http://localhost:8080/auth/authenticate', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        email: username,
+        password: password
+      })
+    }).then(res => res.json())
+      .then(data => {
+        this.token = data.token
+        this.tokens = data.tokens
+        if(this.token == undefined) {
+          /*Swal.fire({
+            title: 'Authentication failed. Please try again.',
+            html:``,
+            icon: "error"
+          })*/
+          //Swal.showValidationMessage(`Authentication failed. Please try again.`)
+        }
+        // @ts-ignore
+        if (this.token != undefined){
+          this.appUsers.set(data.userDetails, this.token)
+          this.isLoggedIn = true
+        }
+        console.log(this.token)
+        console.log(this.isLoggedIn)
+        if (this.isLoggedIn){
+          Swal.fire(
+            'You are authenticated!',
+            `<p>Welcome ${this.username}</p>`,
+            'success'
+          )
+        }
+        else {
+          Swal.fire({
+              title: 'Authentication failed. Please try again.',
+              html: ``,
+              icon: "error",
+              preConfirm: () => this.isAuthenticated()
+            }
+          );
+        }
+      })
+      .catch(error => {
+        console.log('Error:', error);
+        this.isLoggedIn = false
+        console.log(`in authenticate ${this._isLoggedIn}`)
+        Swal.showValidationMessage(`Authentication failed. Please try again.`)
+      });
+  }
+
+
 
   isAuthenticated() {
     if (!this.isLoggedIn) {
@@ -198,6 +206,7 @@ export class AuthService {
           '<input id="swal-input2" class="swal2-input" type="password" placeholder="Enter your password">' +
           '<label for="swal-input2" class="label">Password</label>' +
           '</div>' +
+          `<span>You don't have an account ? you can register with a new account</span>`+
           '</form>',
         focusConfirm: false,
         preConfirm: () => {
@@ -212,14 +221,14 @@ export class AuthService {
 
           let found
           let userFound
-          for (let user of this.appUsers.keys()){
-            if (user.username === username){
+          for (let user of this.appUsers.keys()) {
+            if (user.username === username) {
               found = true
               userFound = user
               break;
             }
           }
-          if (found){
+          if (found) {
 
             // @ts-ignore
             this.token = this.appUsers.get(userFound)
@@ -233,55 +242,7 @@ export class AuthService {
             return;
           }
 
-          return fetch('http://localhost:8080/auth/authenticate', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-              email: username,
-              password: password
-            })
-          }).then(res => res.json())
-            .then(data => {
-              this.token = data.token
-              this.tokens = data.tokens
-              if(this.token == undefined) {
-                /*Swal.fire({
-                  title: 'Authentication failed. Please try again.',
-                  html:``,
-                  icon: "error"
-                })*/
-                //Swal.showValidationMessage(`Authentication failed. Please try again.`)
-              }
-              // @ts-ignore
-              if (this.token != undefined){
-                this.appUsers.set(data.userDetails, this.token)
-                this.isLoggedIn = true
-              }
-              console.log(this.token)
-              console.log(this.isLoggedIn)
-              if (this.isLoggedIn){
-                Swal.fire(
-                  'You are authenticated!',
-                  `<p>Welcome ${this.username}</p>`,
-                  'success'
-                )
-              }
-              else {
-                Swal.fire({
-                    title: 'Authentication failed. Please try again.',
-                    html: ``,
-                    icon: "error",
-                    preConfirm: () => this.isAuthenticated()
-                  }
-                );
-              }
-            })
-            .catch(error => {
-              console.log('Error:', error);
-              this.isLoggedIn = false
-              console.log(`in authenticate ${this._isLoggedIn}`)
-              Swal.showValidationMessage(`Authentication failed. Please try again.`)
-            });
+          return this.toLogIn(username, password)
         }
       });
     }
