@@ -1,8 +1,8 @@
 <nav>
   <ol class="cd-multi-steps text-bottom count">
-    <li class="visited"><a href="#">Recherche</a></li>
-    <li *ngIf="returnFlight == undefined" class="visited"><a  href="/searchflight/{{this.outboundFlight.flightGeneric.departureAirport.code}}/{{this.outboundFlight.flightGeneric.arrivalAirport.code}}/{{this.outboundFlight.departureDate}}/{{this._class}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/">Vols</a></li>
-    <li *ngIf="returnFlight != undefined" class="visited"><a  href="/searchflight/{{this.outboundFlight.flightGeneric.departureAirport.code}}/{{this.outboundFlight.flightGeneric.arrivalAirport.code}}/{{this.outboundFlight.departureDate}}/{{this._class}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/{{this.returnFlight.departureDate}}">Vols</a></li>
+    <li class="visited"><a routerLink="/">Recherche</a></li>
+    <li *ngIf="returnFlight == undefined" class="visited"><a routerLink="/searchflight/{{this.outboundFlight.flightGeneric.departureAirport.code}}/{{this.outboundFlight.flightGeneric.arrivalAirport.code}}/{{this.outboundFlight.departureDate}}/{{this._class}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/">Vols</a></li>
+    <li *ngIf="returnFlight != undefined" class="visited"><a routerLink="/searchflight/{{this.outboundFlight.flightGeneric.departureAirport.code}}/{{this.outboundFlight.flightGeneric.arrivalAirport.code}}/{{this.outboundFlight.departureDate}}/{{this._class}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/{{this.returnFlight.departureDate}}">Vols</a></li>
     <li class="current"><em>Passager</em></li>
     <li><em>Siège</em></li>
   </ol>
@@ -132,7 +132,7 @@
     </div>
   </div>
 
-  <div style="display: inline-block; width: 30%; position: absolute; top: 25%; right: 5%;">
+  <div style="display: inline-block; width: 30%; position: absolute; top: 25%; right: 2%;">
     <div class="card border-primary">
       <div class="card-header">
         <h4 class="card-title mb-0">Votre réservation</h4>

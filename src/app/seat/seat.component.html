@@ -1,17 +1,17 @@
 <nav>
   <ol class="cd-multi-steps text-bottom count">
-    <li class="visited"><a href="#">Recherche</a></li>
-    <li *ngIf="this.reservationService.returnReservations.length == 0" class="visited"><a  href="/searchflight/{{this.reservationService.outboundReservations[0].flight.flightGeneric.departureAirport.code}}/{{this.reservationService.outboundReservations[0].flight.flightGeneric.arrivalAirport.code}}/{{this.reservationService.outboundReservations[0].flight.departureDate}}/{{this.reservationService.outboundReservations[0].seatClass.code}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/">Vols</a></li>
-    <li *ngIf="this.reservationService.returnReservations.length > 0" class="visited"><a  href="/searchflight/{{this.reservationService.outboundReservations[0].flight.flightGeneric.departureAirport.code}}/{{this.reservationService.outboundReservations[0].flight.flightGeneric.arrivalAirport.code}}/{{this.reservationService.outboundReservations[0].flight.departureDate}}/{{this.reservationService.outboundReservations[0].seatClass.code}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/{{this.reservationService.returnReservations[0].flight.departureDate}}">Vols</a></li>
-    <li *ngIf="this.reservationService.returnReservations.length == 0" class="visited"><a href="/passengers/{{this.reservationService.outboundReservations[0].flight.id}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/{{this.reservationService.outboundReservations[0].seatClass.code}}">Passager</a></li>
-    <li *ngIf="this.reservationService.returnReservations.length > 0" class="visited"><a href="/passengers/{{this.reservationService.outboundReservations[0].flight.id}}/{{this.reservationService.returnReservations[0].flight.id}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/{{this.reservationService.outboundReservations[0].seatClass.code}}">Passager</a></li>
+    <li class="visited"><a routerLink="/">Recherche</a></li>
+    <li *ngIf="this.reservationService.returnReservations.length == 0" class="visited"><a routerLink="/searchflight/{{this.reservationService.outboundReservations[0].flight.flightGeneric.departureAirport.code}}/{{this.reservationService.outboundReservations[0].flight.flightGeneric.arrivalAirport.code}}/{{this.reservationService.outboundReservations[0].flight.departureDate}}/{{this.reservationService.outboundReservations[0].seatClass.code}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/">Vols</a></li>
+    <li *ngIf="this.reservationService.returnReservations.length > 0" class="visited"><a routerLink="/searchflight/{{this.reservationService.outboundReservations[0].flight.flightGeneric.departureAirport.code}}/{{this.reservationService.outboundReservations[0].flight.flightGeneric.arrivalAirport.code}}/{{this.reservationService.outboundReservations[0].flight.departureDate}}/{{this.reservationService.outboundReservations[0].seatClass.code}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/{{this.reservationService.returnReservations[0].flight.departureDate}}">Vols</a></li>
+    <li *ngIf="this.reservationService.returnReservations.length == 0" class="visited"><a routerLink="/passengers/{{this.reservationService.outboundReservations[0].flight.id}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/{{this.reservationService.outboundReservations[0].seatClass.code}}">Passager</a></li>
+    <li *ngIf="this.reservationService.returnReservations.length > 0" class="visited"><a routerLink="/passengers/{{this.reservationService.outboundReservations[0].flight.id}}/{{this.reservationService.returnReservations[0].flight.id}}/{{this.nbOfPassengersAdults}}/{{this.nbOfPassengersChildren}}/{{this.reservationService.outboundReservations[0].seatClass.code}}">Passager</a></li>
     <li class="current"><em>Siège</em></li>
   </ol>
 </nav>
 
 
 <div>
-  <div style="display: inline-block; width: 30%; position: absolute; top: 35%; right: 5%; z-index: 9999;">
+  <div style="display: inline-block; width: 30%; position: absolute; top: 35%; right: 5%; z-index: 1000;">
     <div class="card border-primary">
       <div class="card-header">
         <h4 class="card-title mb-0">Votre réservation</h4>
@@ -61,7 +61,7 @@
 
     <div class="d-flex" style="margin-right: 25px; z-index: 9999;">
       <button class="btn btn-primary ml-auto btn-lg" style="margin-bottom: 25px;margin-right: 25px; position: fixed; bottom: 0; right: 0"
-              (click) = "check()"
+              (click) = "onContinue(); successNotification()"
       >
         Continuer
       </button>
@@ -164,5 +164,4 @@
       </mat-tab>
     </div>
   </mat-tab-group>
-
 </div>

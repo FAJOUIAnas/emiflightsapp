@@ -19,6 +19,7 @@ export class AuthService {
   token! : string|undefined
   tokens :string[] = []
   appUsers = new Map<User, string>();
+  currentUser!: User;
   private _isLoggedIn:boolean = false
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this._isLoggedIn$.asObservable();

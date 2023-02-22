@@ -23,6 +23,7 @@ import { ProfilComponent } from './profil/profil.component';
 import { PassengersComponent } from './passengers/passengers.component';
 import { SeatComponent } from './seat/seat.component';
 import {MatTabsModule} from "@angular/material/tabs";
+import { TicketComponent } from './ticket/ticket.component';
 
 const appRoutes: Routes = [
   {path : '', component : SearchComponent},
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
   {path: 'profil', component: ProfilComponent/*, canActivate: [AuthGuard]*/},
   {path : 'passengers/:outbound-flight-id/:return-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent/*, canActivate: [AuthGuard]*/},
   {path : 'passengers/:outbound-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent/*, canActivate: [AuthGuard]*/},
-  {path : 'seat', component : SeatComponent/*, canActivate: [AuthGuard]*/}
+  {path : 'seat', component : SeatComponent/*, canActivate: [AuthGuard]*/},
+  {path : 'ticket', component : TicketComponent}
 ]
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ const appRoutes: Routes = [
     SeatComponent,
     LoginComponent,
     ProfilComponent,
-    PassengersComponent
+    PassengersComponent,
+    TicketComponent
   ],
   imports: [
     BrowserModule,
