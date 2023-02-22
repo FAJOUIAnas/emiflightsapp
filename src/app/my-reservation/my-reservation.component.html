@@ -1,0 +1,30 @@
+<div class="my-reservations-container">
+  <h1>My Reservations <button class="btn btn-outline-primary" (click)="getUser()">Refresh</button></h1>
+  <table>
+    <thead>
+    <tr>
+      <th>Code</th>
+      <th>Flight</th>
+      <th>Class</th>
+      <th>Passenger Name</th>
+      <th>Status</th>
+      <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngIf="reservations && reservations.length > 0; else noReservations">
+      <tr *ngFor="let reservation of reservations">
+        <td>{{ reservation.code }}</td>
+        <td>{{ reservation.flight.flightGeneric.departureAirport.city }} ✈ {{ reservation.flight.flightGeneric.arrivalAirport.city }}</td>
+        <td>{{ reservation.seatClass.label }}</td>
+        <td>{{ reservation.passengerFirstName }} {{ reservation.passengerLastName }}</td>
+        <td>{{ reservation.reservationStatus.label }}</td>
+        <td>{{ reservation.price }}</td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+  <ng-template #noReservations>
+    <p>You have no reservations yet.</p>
+  </ng-template>
+</div>

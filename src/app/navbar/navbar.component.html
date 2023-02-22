@@ -42,9 +42,10 @@
   </a>
   <nav>
     <ul class="nav__links">
-      <li><a routerLink="plane">Planes</a></li>
-      <li><a *ngIf="!authService.isLoggedIn" routerLink="login">Sign up</a></li>
       <li><a routerLink="profil" *ngIf="authService.isLoggedIn">Profil</a></li>
+      <li><a routerLink="myreservation" *ngIf="authService.isLoggedIn">My reservation</a></li>
+      <li><a *ngIf="!authService.isLoggedIn" (click)="authService.isAuthenticated()">Log in</a></li>
+      <li><a *ngIf="!authService.isLoggedIn" routerLink="login">Sign up</a></li>
     </ul>
   </nav>
 </header>
