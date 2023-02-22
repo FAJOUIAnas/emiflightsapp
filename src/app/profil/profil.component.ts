@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {AuthService} from "../service/authentication/auth.service";
 import {User} from "../model/user";
 import {UserService} from "../service/user.service";
-import {Plane} from "../model/plane";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
