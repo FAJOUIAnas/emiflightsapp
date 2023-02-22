@@ -23,7 +23,7 @@ export class SearchComponent implements OnInit{
   }
 
   onSearchFlight(origin: string, destination: string, depDate: string, _class: string, nbOfPassengersAdults: string, nbOfPassengersChildren: string, reDate: string) {
-    const nbOfPassengers: number = parseInt(nbOfPassengersAdults) + parseInt(nbOfPassengersChildren);
+    // const nbOfPassengers: number = parseInt(nbOfPassengersAdults) + parseInt(nbOfPassengersChildren);
     if (this.flightType == 'one-way')
       this.route.navigate([`searchflight/${origin}/${destination}/${depDate}/${_class}/${nbOfPassengersAdults}/${nbOfPassengersChildren}`])
     else if (this.flightType == 'round-trip')
@@ -68,7 +68,11 @@ export class SearchComponent implements OnInit{
   }
 
   isBefore(date1: string, date2: string): boolean {
-    console.log(Date.parse(date1) < Date.parse(date2))
-    return Date.parse(date1) < Date.parse(date2);
+    let date11 = new Date(Date.parse(date1));
+    let date22 = new Date(Date.parse(date2));
+
+    date22.setDate(date22.getDate() + 1);
+
+    return date11 < date22;
   }
 }

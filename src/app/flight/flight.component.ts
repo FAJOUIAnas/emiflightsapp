@@ -96,6 +96,7 @@ export class FlightComponent implements OnInit{
       this.priceAddition = 0.8;
 
     this.priceAddition = this.priceAddition * (this.nbOfPassengersAdults + (this.nbOfPassengersChildren * 0.75))
+    this.priceAddition = Number(this.priceAddition.toFixed(0))
   }
 
   public chooseOutboundFlight(outboundFlight: Flight) : void {

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {AuthService} from "../service/authentication/auth.service";
 import {User} from "../model/user";
 import {UserService} from "../service/user.service";
-import {Plane} from "../model/plane";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
@@ -72,6 +71,8 @@ export class ProfilComponent {
           this.image = this.PROFILE_PIC_USERS.at(this.n)
           this.user = response;
           this._authService.currentUser = response;
+          console.log(this.user)
+          console.log(this._authService.currentUser)
         },
         (error: HttpErrorResponse) => {
           alert(error.message);
