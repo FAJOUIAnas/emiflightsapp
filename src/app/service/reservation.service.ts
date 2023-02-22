@@ -15,6 +15,11 @@ export class ReservationService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
+  getReservationsByUserid(userId: string): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`http://localhost:8080/reservation/user/${userId}`);
+  }
+
+
   public getReservationsByFlightAndClass(flightId: string, seatClassCode: string): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.apiServerUrl}/reservation/find-by-flight-and-class/${flightId}/${seatClassCode}`);
   }
