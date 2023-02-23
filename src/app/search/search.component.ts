@@ -60,7 +60,9 @@ export class SearchComponent implements OnInit{
       }),
     );
 
-    this.getUser();
+    if(this.authService.isLoggedIn) {
+      this.getUser();
+    }
   }
 
   displayFn(airport: Airport): string {
