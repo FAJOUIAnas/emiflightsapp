@@ -186,9 +186,28 @@ export class SeatComponent implements OnInit {
       this.priceAddition = 7;
     else if(this.reservationService.outboundReservations[0].seatClass.code == "BUSI")
       this.priceAddition = 0.8;
+
+    for(let i = 0; i < this.reservationService.returnReservations.length; i++) {
+      if(this.reservationService.outboundReservations[i].passengerAgeGroup.code == "AD") {
+        this.reservationService.outboundReservations[i].price = this.reservationService.outboundReservations[i].flight.flightGeneric.basePrice * this.priceAddition
+      } else if(this.reservationService.outboundReservations[i].passengerAgeGroup.code == "CHD") {
+        this.reservationService.outboundReservations[i].price = this.reservationService.outboundReservations[i].flight.flightGeneric.basePrice * this.priceAddition * 0.75
+      }
+
+      if(this.reservationService.returnReservations.length > 0) {
+        if(this.reservationService.returnReservations[i].passengerAgeGroup.code == "AD") {
+          this.reservationService.returnReservations[i].price = this.reservationService.returnReservations[i].flight.flightGeneric.basePrice * this.priceAddition
+        } else if (this.reservationService.returnReservations[i].passengerAgeGroup.code == "CHD") {
+          this.reservationService.returnReservations[i].price = this.reservationService.returnReservations[i].flight.flightGeneric.basePrice * this.priceAddition * 0.75
+        }
+      }
+    }
+
     this.priceAddition = this.priceAddition * (this.nbOfPassengersAdults + (this.nbOfPassengersChildren * 0.75))
 
     this.priceAddition = Number(this.priceAddition.toFixed(0))
+
+
 
   }
 
@@ -382,8 +401,8 @@ export class SeatComponent implements OnInit {
       ticket.text(`Flight Number: ${fakeFlightId}`, 40, 30);
       ticket.text(`From: ${this.reservationService.returnReservations[i].flight.flightGeneric.departureAirport.city}`, 40, 40);
       ticket.text(`To: ${this.reservationService.returnReservations[i].flight.flightGeneric.arrivalAirport.city}`, 40, 50);
-      ticket.text(`Departure Time: ${this.reservationService.returnReservations[i].flight.flightGeneric.departureHour}`, 40, 60);
-      ticket.text(`Arrival Time: ${this.reservationService.returnReservations[i].flight.flightGeneric.arrivalHour}`, 40, 70);
+      ticket.text(`Departure Time: ${this.reservationService.returnReservations[i].flight.flightGeneric.departureHour} (${this.reservationService.returnReservations[i].flight.flightGeneric.departureTerminal.label})`, 40, 60);
+      ticket.text(`Arrival Time: ${this.reservationService.returnReservations[i].flight.flightGeneric.arrivalHour} (${this.reservationService.returnReservations[i].flight.flightGeneric.arrivalTerminal.label})`, 40, 70);
 
       // Add the passenger name and seat number
       ticket.setFontSize(12);
@@ -392,12 +411,12 @@ export class SeatComponent implements OnInit {
 
       // Add the boarding pass barcode
       ticket.setFontSize(8);
-      ticket.text('Boarding Pass Barcode', 140, 50);
-      ticket.rect(140, 60, 50, 20);
+      ticket.text('Boarding Pass Barcode', 140, 80);
+      ticket.rect(140, 85, 50, 20);
 
       const barcode = new Image();
       barcode.src = '../assets/fakeBarcode.png';
-      ticket.addImage(barcode, 'PNG', 141, 61, 49, 19);
+      ticket.addImage(barcode, 'PNG', 140, 85, 50, 20);
 
       // Save the PDF
       ticket.save(`plane-ticket-${this.reservationService.returnReservations[i].passengerFirstName}-retour.pdf`);
