@@ -21,6 +21,9 @@ export class FlightComponent implements OnInit{
   public chosenReturnFlight!: Flight;
   public priceAddition: number = 1;
 
+  outboundDurations: string[] = [];
+  returnDurations: string[] = [];
+
 
   constructor(private flightService: FlightService, private airportService: AirportService, private  route : ActivatedRoute, private router: Router, private authService: AuthService) {}
 
@@ -91,6 +94,10 @@ export class FlightComponent implements OnInit{
       this.reDate = this.route.snapshot.params['re-date'];
 
       this.searchOutboundFlights(this.airportDep, this.airportArr, this.depDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
+      for(let i = 0; i < this.outboundFlights.length; i++) {
+        // this.outboundDurations[i] = Math.abs(new Date(this.outboundFlights[i].flightGeneric.departureHour.toString()))
+      }
+
       if (this.reDate != undefined)
         this.searchReturnFlights(this.airportArr, this.airportDep, this.reDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
 
