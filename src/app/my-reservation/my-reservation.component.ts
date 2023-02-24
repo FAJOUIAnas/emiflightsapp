@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import {Reservation} from "../model/reservation";
+import { Reservation } from '../model/reservation';
 import { AuthService } from '../service/authentication/auth.service';
-import {ReservationService} from "../service/reservation.service";
-import {User} from "../model/user";
-import {HttpErrorResponse} from "@angular/common/http";
-import {UserService} from "../service/user.service";
+import { ReservationService } from '../service/reservation.service';
+import { User } from '../model/user';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-my-reservation',
@@ -12,18 +12,18 @@ import {UserService} from "../service/user.service";
   styleUrls: ['./my-reservation.component.css']
 })
 export class MyReservationComponent {
-  userId!: string
-
+  userId!: string;
   reservations: Reservation[] = [];
-
+  selectedReservation?: Reservation;
+  hoveredRow: Reservation | undefined;
   constructor(private reservationsService: ReservationService, private authService: AuthService,
               private userService: UserService) { }
 
   ngOnInit(): void {
-    this.authService.isAuthenticated()
+    this.authService.isAuthenticated();
   }
 
-  getUser(){
+  getUser() {
     this.userService.getUserByCredentials(this.authService.username, this.authService.password)
       .subscribe(
         (response: User) => {
@@ -42,4 +42,30 @@ export class MyReservationComponent {
       );
   }
 
+  showReservationDetails(reservation: Reservation) {
+    this.selectedReservation = reservation;
+    const popup = document.getElementById("popup");
+    popup?.classList.toggle("show");
+  }
+
+  closeReservationDetails() {
+    const popup = document.getElementById("popup");
+    popup?.classList.toggle("show");
+    this.selectedReservation = undefined;
+  }
+
+  onRowHover(reservation: Reservation) {
+    this.hoveredRow = reservation;
+  }
+
+  onRowLeave() {
+    this.hoveredRow = undefined;
+  }
+
+  getRowClass(reservation: Reservation) {
+    if (reservation === this.hoveredRow) {
+      return 'hovered-row';
+    }
+    return '';
+  }
 }

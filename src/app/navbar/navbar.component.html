@@ -37,16 +37,23 @@
 </head>
 
 <header>
-  <a class="logo" routerLink="">
-    <img src="/assets/brand/EMIFights-solid.png" width="41" height="37" alt="">
-  </a>
+
+  <div class="title title_hover">
+    <a class="logo title_hover" routerLink="">
+      <img src="/assets/brand/EMIFights-solid.png" width="41" height="37" alt="">
+    </a>
+    <a routerLink="">&nbsp;&nbsp;&nbsp;E M I&nbsp;&nbsp;&nbsp;&nbsp;F L I G H T S</a>
+  </div>
   <nav>
     <ul class="nav__links">
-      <li><a routerLink="profil" *ngIf="authService.isLoggedIn">Profil</a></li>
-      <li><a routerLink="myreservation" *ngIf="authService.isLoggedIn">My reservation</a></li>
-      <li><a *ngIf="!authService.isLoggedIn" (click)="authService.isAuthenticated()">Log in</a></li>
-      <li><a *ngIf="!authService.isLoggedIn" routerLink="login">Sign up</a></li>
+      <li><a routerLink="profil" *ngIf="authService.isLoggedIn"><b>Profil</b></a></li>
+      <li><a routerLink="myreservation" *ngIf="authService.isLoggedIn"><b>My reservations</b></a></li>
+      <li><a *ngIf="!authService.isLoggedIn" (click)="authService.isAuthenticated()"><b>Log in</b></a></li>
+      <li><a *ngIf="!authService.isLoggedIn" routerLink="login"><b>Sign up</b></a></li>
     </ul>
   </nav>
 </header>
+
+
+
 <script type="text/javascript" src="navbar.component.ts"></script>
