@@ -78,7 +78,7 @@ export class FlightComponent implements OnInit{
   public reDate : string | undefined;
   today!: string;
   ngOnInit(): void {
-
+    this.getFlights()
     this.authService.isAuthenticated()
 
     if(this.authService.isLoggedIn) {
