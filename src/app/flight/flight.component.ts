@@ -5,6 +5,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AirportService} from "../service/airport.service";
 import {Airport} from "../model/airport";
+import {AuthService} from "../service/authentication/auth.service";
 
 @Component({
   selector: 'app-flight',
@@ -20,8 +21,11 @@ export class FlightComponent implements OnInit{
   public chosenReturnFlight!: Flight;
   public priceAddition: number = 1;
 
+  outboundDurations: string[] = [];
+  returnDurations: string[] = [];
 
-  constructor(private flightService: FlightService, private airportService: AirportService, private  route : ActivatedRoute, private router: Router) {}
+
+  constructor(private flightService: FlightService, private airportService: AirportService, private  route : ActivatedRoute, private router: Router, private authService: AuthService) {}
 
   public searchOutboundFlights(depAirport: string, arrAirport: string, depDate: string, _class: string, nbOfPassengers: number): void {
     this.flightService.searchFlight(depAirport, arrAirport, depDate, _class, nbOfPassengers).subscribe(
@@ -74,29 +78,39 @@ export class FlightComponent implements OnInit{
   public reDate : string | undefined;
   today!: string;
   ngOnInit(): void {
+    this.getFlights()
+    this.authService.isAuthenticated()
 
-    this.today = new Date().toISOString().substr(0, 10);
+    if(this.authService.isLoggedIn) {
+      this.today = new Date().toISOString().substr(0, 10);
 
-    this.airportDep = this.route.snapshot.params['dep-airport'];
-    this.airportArr = this.route.snapshot.params['arr-airport'];
-    this.depDate = this.route.snapshot.params['dep-date'];
-    this._class = this.route.snapshot.params['class'];
-    this.nbOfPassengersAdults = parseInt(this.route.snapshot.params['nb-of-passengers-adults']);
-    this.nbOfPassengersChildren = parseInt(this.route.snapshot.params['nb-of-passengers-children']);
-    this.reDate = this.route.snapshot.params['re-date'];
-    this.searchOutboundFlights(this.airportDep, this.airportArr, this.depDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
-    if (this.reDate != undefined)
-      this.searchReturnFlights(this.airportArr, this.airportDep, this.reDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
+      this.airportDep = this.route.snapshot.params['dep-airport'];
+      this.airportArr = this.route.snapshot.params['arr-airport'];
+      this.depDate = this.route.snapshot.params['dep-date'];
+      this._class = this.route.snapshot.params['class'];
+      this.nbOfPassengersAdults = parseInt(this.route.snapshot.params['nb-of-passengers-adults']);
+      this.nbOfPassengersChildren = parseInt(this.route.snapshot.params['nb-of-passengers-children']);
 
-    this.getCities(this.airportDep, this.airportArr);
+      this.reDate = this.route.snapshot.params['re-date'];
 
-    if(this._class == "FST")
-      this.priceAddition = 7;
-    else if(this._class == "BUSI")
-      this.priceAddition = 0.8;
+      this.searchOutboundFlights(this.airportDep, this.airportArr, this.depDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
+      for(let i = 0; i < this.outboundFlights.length; i++) {
+        // this.outboundDurations[i] = Math.abs(new Date(this.outboundFlights[i].flightGeneric.departureHour.toString()))
+      }
 
-    this.priceAddition = this.priceAddition * (this.nbOfPassengersAdults + (this.nbOfPassengersChildren * 0.75))
-    this.priceAddition = Number(this.priceAddition.toFixed(0))
+      if (this.reDate != undefined)
+        this.searchReturnFlights(this.airportArr, this.airportDep, this.reDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
+
+      this.getCities(this.airportDep, this.airportArr);
+
+      if(this._class == "FST")
+        this.priceAddition = 7;
+      else if(this._class == "BUSI")
+        this.priceAddition = 0.8;
+
+      this.priceAddition = this.priceAddition * (this.nbOfPassengersAdults + (this.nbOfPassengersChildren * 0.75))
+      this.priceAddition = Number(this.priceAddition.toFixed(0))
+    }
   }
 
   public chooseOutboundFlight(outboundFlight: Flight) : void {
@@ -140,6 +154,35 @@ export class FlightComponent implements OnInit{
         this.reDate = this.depDate;
         this.searchReturnFlights(this.airportArr, this.airportDep, this.reDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
       }
+    }
+  }
+
+  getFlights() {
+    if(this.authService.isLoggedIn) {
+      this.today = new Date().toISOString().substr(0, 10);
+
+      this.airportDep = this.route.snapshot.params['dep-airport'];
+      this.airportArr = this.route.snapshot.params['arr-airport'];
+      this.depDate = this.route.snapshot.params['dep-date'];
+      this._class = this.route.snapshot.params['class'];
+      this.nbOfPassengersAdults = parseInt(this.route.snapshot.params['nb-of-passengers-adults']);
+      this.nbOfPassengersChildren = parseInt(this.route.snapshot.params['nb-of-passengers-children']);
+
+      this.reDate = this.route.snapshot.params['re-date'];
+
+      this.searchOutboundFlights(this.airportDep, this.airportArr, this.depDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
+      if (this.reDate != undefined)
+        this.searchReturnFlights(this.airportArr, this.airportDep, this.reDate, this._class, this.nbOfPassengersAdults + this.nbOfPassengersChildren);
+
+      this.getCities(this.airportDep, this.airportArr);
+
+      if(this._class == "FST")
+        this.priceAddition = 7;
+      else if(this._class == "BUSI")
+        this.priceAddition = 0.8;
+
+      this.priceAddition = this.priceAddition * (this.nbOfPassengersAdults + (this.nbOfPassengersChildren * 0.75))
+      this.priceAddition = Number(this.priceAddition.toFixed(0))
     }
   }
 }

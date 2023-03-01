@@ -5,6 +5,9 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {AirportService} from "../service/airport.service";
 import {FormControl} from "@angular/forms";
 import {map, Observable, startWith} from "rxjs";
+import {User} from "../model/user";
+import {AuthService} from "../service/authentication/auth.service";
+import {UserService} from "../service/user.service";
 
 @Component({
   selector: 'app-search',
@@ -19,7 +22,8 @@ export class SearchComponent implements OnInit{
   flightType: string = 'one-way';
 
   isBeforeDate: boolean = false;
-  constructor(private route: Router, private airportService : AirportService) {
+  constructor(private route: Router, private airportService : AirportService, private authService: AuthService,
+              private userService: UserService) {
   }
 
   onSearchFlight(origin: string, destination: string, depDate: string, _class: string, nbOfPassengersAdults: string, nbOfPassengersChildren: string, reDate: string) {
@@ -55,6 +59,10 @@ export class SearchComponent implements OnInit{
         return city ? this._filter(city as string) : this.airports.slice();
       }),
     );
+
+    if(this.authService.isLoggedIn) {
+      this.getUser();
+    }
   }
 
   displayFn(airport: Airport): string {
@@ -74,5 +82,17 @@ export class SearchComponent implements OnInit{
     date22.setDate(date22.getDate() + 1);
 
     return date11 < date22;
+  }
+
+  getUser(){
+    this.userService.getUserByCredentials(this.authService.username, this.authService.password)
+      .subscribe(
+        (response: User) => {
+          this.authService.currentUser = response;
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
   }
 }
