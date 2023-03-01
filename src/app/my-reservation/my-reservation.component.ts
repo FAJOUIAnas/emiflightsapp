@@ -20,7 +20,7 @@ export class MyReservationComponent {
               private userService: UserService) { }
 
   ngOnInit(): void {
-    this.authService.isAuthenticated()
+    this.getUser()
   }
 
   getUser(){

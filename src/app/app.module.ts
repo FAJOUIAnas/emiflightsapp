@@ -28,16 +28,16 @@ import { MyReservationComponent } from './my-reservation/my-reservation.componen
 
 const appRoutes: Routes = [
   {path : '', component : SearchComponent},
-  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers-adults/:nb-of-passengers-children', component : FlightComponent},
-  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers-adults/:nb-of-passengers-children/:re-date', component : FlightComponent},
-  {path : 'plane', component : PlanesComponent/*, canActivate: [AuthGuard]*/},
+  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers-adults/:nb-of-passengers-children', component : FlightComponent, canActivate: [AuthGuard]},
+  {path : 'searchflight/:dep-airport/:arr-airport/:dep-date/:class/:nb-of-passengers-adults/:nb-of-passengers-children/:re-date', component : FlightComponent, canActivate: [AuthGuard]},
+  {path : 'plane', component : PlanesComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
-  {path: 'profil', component: ProfilComponent/*, canActivate: [AuthGuard]*/},
-  {path : 'passengers/:outbound-flight-id/:return-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent/*, canActivate: [AuthGuard]*/},
-  {path : 'passengers/:outbound-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent/*, canActivate: [AuthGuard]*/},
-  {path : 'seat', component : SeatComponent/*, canActivate: [AuthGuard]*/},
-  {path : 'ticket', component : TicketComponent},
-  {path: 'myreservation', component: MyReservationComponent}
+  {path: 'profil', component: ProfilComponent, canActivate: [AuthGuard]},
+  {path : 'passengers/:outbound-flight-id/:return-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent, canActivate: [AuthGuard]},
+  {path : 'passengers/:outbound-flight-id/:nb-of-passengers-adults/:nb-of-passengers-children/:class', component : PassengersComponent, canActivate: [AuthGuard]},
+  {path : 'seat', component : SeatComponent, canActivate: [AuthGuard]},
+  {path : 'ticket', component : TicketComponent, canActivate: [AuthGuard]},
+  {path: 'myreservation', component: MyReservationComponent, canActivate: [AuthGuard]}
 ]
 @NgModule({
   declarations: [
