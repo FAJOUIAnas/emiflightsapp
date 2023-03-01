@@ -21,7 +21,6 @@ export class MyReservationComponent {
 
   ngOnInit(): void {
     this.getUser()
-    this.authService.isAuthenticated();
   }
 
   getUser() {

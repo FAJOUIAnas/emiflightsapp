@@ -18,7 +18,7 @@ export class LoginComponent {
   username!: string
   password!: string
   image!: string
-  isSignUpForm: boolean = true
+  isSignUpForm: boolean = false
   user: User = new User("", "","", "", "", "", "", "",
     "")
   url!: string

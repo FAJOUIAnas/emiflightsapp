@@ -111,6 +111,8 @@ export class AuthService {
 
         let found
         let userFound
+        // @ts-ignore
+        this.appUsers = JSON.parse(localStorage.getItem("users"))
         for (let user of this.appUsers.keys()) {
           if (user.username === username) {
             found = true
