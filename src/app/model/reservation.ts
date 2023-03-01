@@ -22,7 +22,7 @@ export class Reservation {
   public price: number;
 
 
-  constructor(flight: Flight, creationDate: string, modificationDate: string, passengerCivility: Civility, passengerAgeGroup: AgeGroup, seatClass: SeatClass, reservationStatus: ReservationStatus, price: number) {
+  constructor(flight: Flight, creationDate: string, modificationDate: string, passengerCivility: Civility, passengerAgeGroup: AgeGroup, seatClass: SeatClass, reservationStatus: ReservationStatus, price: number, user: User) {
     this.flight = flight;
     this.creationDate = creationDate;
     this.modificationDate = modificationDate;
@@ -31,6 +31,7 @@ export class Reservation {
     this.seatClass = seatClass;
     this.reservationStatus = reservationStatus;
     this.price = price;
+    this.user = user;
   }
 }
 

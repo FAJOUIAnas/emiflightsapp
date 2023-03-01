@@ -9,6 +9,7 @@ import {AgeGroup} from "../model/ageGroup";
 import {SeatClass} from "../model/seatClass";
 import {ReservationStatus} from "../model/reservationStatus";
 import {ReservationService} from "../service/reservation.service";
+import {User} from "../model/user";
 
 @Component({
   selector: 'app-passengers',
@@ -50,11 +51,11 @@ export class PassengersComponent implements OnInit {
         this.outboundFlight = response;
 
         for(let i = 0; i < this.nbOfPassengersAdults; i++) {
-          this.adultPassengers.push(new Reservation(this.outboundFlight, todayDate, todayDate, new Civility(), new AgeGroup("AD"), new SeatClass(this._class), new ReservationStatus("SCHD"), this.outboundFlight.flightGeneric.basePrice));
+          this.adultPassengers.push(new Reservation(this.outboundFlight, todayDate, todayDate, new Civility(), new AgeGroup("AD"), new SeatClass(this._class), new ReservationStatus("SCHD"), this.outboundFlight.flightGeneric.basePrice, new User("", "", "", "", "", "", "", "", "")));
         }
 
         for(let i = 0; i < this.nbOfPassengersChildren; i++) {
-          this.childPassengers.push(new Reservation(this.outboundFlight, todayDate, todayDate, new Civility(), new AgeGroup("CHD"), new SeatClass(this._class), new ReservationStatus("SCHD"), this.outboundFlight.flightGeneric.basePrice));
+          this.childPassengers.push(new Reservation(this.outboundFlight, todayDate, todayDate, new Civility(), new AgeGroup("CHD"), new SeatClass(this._class), new ReservationStatus("SCHD"), this.outboundFlight.flightGeneric.basePrice, new User("", "", "", "", "", "", "", "", "")));
         }
       },
       (error: HttpErrorResponse) => {
@@ -68,11 +69,11 @@ export class PassengersComponent implements OnInit {
           this.returnFlight = response;
 
           for(let i = 0; i < this.nbOfPassengersAdults; i++) {
-            this.adultPassengersReturn.push(new Reservation(this.returnFlight, todayDate, todayDate, new Civility(), new AgeGroup("AD"), new SeatClass(this._class), new ReservationStatus("SCHD"), this.returnFlight.flightGeneric.basePrice));
+            this.adultPassengersReturn.push(new Reservation(this.returnFlight, todayDate, todayDate, new Civility(), new AgeGroup("AD"), new SeatClass(this._class), new ReservationStatus("SCHD"), this.returnFlight.flightGeneric.basePrice, new User("", "", "", "", "", "", "", "", "")));
           }
 
           for(let i = 0; i < this.nbOfPassengersChildren; i++) {
-            this.childPassengersReturn.push(new Reservation(this.returnFlight, todayDate, todayDate, new Civility(), new AgeGroup("CHD"), new SeatClass(this._class), new ReservationStatus("SCHD"), this.returnFlight.flightGeneric.basePrice));
+            this.childPassengersReturn.push(new Reservation(this.returnFlight, todayDate, todayDate, new Civility(), new AgeGroup("CHD"), new SeatClass(this._class), new ReservationStatus("SCHD"), this.returnFlight.flightGeneric.basePrice, new User("", "", "", "", "", "", "", "", "")));
           }
         },
         (error: HttpErrorResponse) => {
@@ -87,6 +88,7 @@ export class PassengersComponent implements OnInit {
       this.priceAddition = 0.8;
 
     this.priceAddition = this.priceAddition * (this.nbOfPassengersAdults + (this.nbOfPassengersChildren * 0.75))
+    this.priceAddition = Number(this.priceAddition.toFixed(0))
 
     // this.childPassengers = Array.from(Array(parseInt(this.nbOfPassengersChildren)),(x,i)=>i);
   }
