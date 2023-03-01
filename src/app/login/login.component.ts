@@ -95,6 +95,7 @@ export class LoginComponent {
       this.router.navigate([""])
     }*/
 
+
     // @ts-ignore
     for (let user of this._authService.appUsers.keys()){
       if (user.username === username){
@@ -111,6 +112,16 @@ export class LoginComponent {
       this.router.navigate(["profil"])
     }
 
+    if (this.authService.appUsers.size == 0){
+      let tokenFromStorage = localStorage.getItem(username)
+      if (tokenFromStorage){
+        this._authService.token = tokenFromStorage
+        console.log(this._authService.token)
+        this._authService.isLoggedIn = true
+        this.router.navigate(["profil"])
+      }
+    }
+
     if (!this._authService.isLoggedIn){
       this._authService.authenticate(username, password).subscribe(
         (data: any) => {
@@ -119,6 +130,7 @@ export class LoginComponent {
             this._authService.tokens = data.tokens
             // @ts-ignore
             this._authService.appUsers.set(data.userDetails, this._authService.token)
+            localStorage.setItem(data.userDetails.username, data.token);
             this._authService.isLoggedIn = true
             console.log(this._authService.token)
             console.log(this._authService.isLoggedIn)
