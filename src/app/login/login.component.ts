@@ -111,6 +111,11 @@ export class LoginComponent {
       console.log(this._authService.token)
       this._authService.isLoggedIn = true
       this.router.navigate(["profil"])
+      Swal.fire(
+        'You are authenticated!',
+        `<p>Welcome ${this.username}</p>`,
+        'success'
+      )
     }
 
     if (this.authService.appUsers.size == 0){
@@ -120,6 +125,11 @@ export class LoginComponent {
         console.log(this._authService.token)
         this._authService.isLoggedIn = true
         this.router.navigate(["profil"])
+        Swal.fire(
+          'You are authenticated!',
+          `<p>Welcome ${this.username}</p>`,
+          'success'
+        )
       }
     }
 
@@ -136,6 +146,11 @@ export class LoginComponent {
             console.log(this._authService.token)
             console.log(this._authService.isLoggedIn)
             this.router.navigate(["profil"])
+            Swal.fire(
+              'You are authenticated!',
+              `<p>Welcome ${this.username}</p>`,
+              'success'
+            )
           }
           else{
             this._authService.isLoggedIn = false
