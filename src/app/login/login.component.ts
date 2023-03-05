@@ -148,7 +148,14 @@ export class LoginComponent {
           }
         },
         (error: HttpErrorResponse) => {
+          this._authService.isLoggedIn = false
           console.error(error);
+          Swal.fire({
+              title: 'Authentication failed. Please try again.',
+              html: ``,
+              icon: "error"
+            }
+          );
         }
       );
     }
