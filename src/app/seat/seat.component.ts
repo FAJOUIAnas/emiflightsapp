@@ -187,7 +187,21 @@ export class SeatComponent implements OnInit {
     else if(this.reservationService.outboundReservations[0].seatClass.code == "BUSI")
       this.priceAddition = 0.8;
 
-    for(let i = 0; i < this.reservationService.returnReservations.length; i++) {
+
+    for(let i = 0; i < this.reservationService.outboundReservations.length; i++) {
+      let fakeReservationCode = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+      for (let i = 0; i < 2; i++) {
+        fakeReservationCode += characters.charAt(Math.floor(Math.random() * 26)); // Generates a random capital letter
+      }
+
+      for (let i = 0; i < 5; i++) {
+        fakeReservationCode += Math.floor(Math.random() * 10).toString(); // Generates a random number or capital letter
+      }
+
+      this.reservationService.outboundReservations[i].code = fakeReservationCode
+
       if(this.reservationService.outboundReservations[i].passengerAgeGroup.code == "AD") {
         this.reservationService.outboundReservations[i].price = this.reservationService.outboundReservations[i].flight.flightGeneric.basePrice * this.priceAddition
       } else if(this.reservationService.outboundReservations[i].passengerAgeGroup.code == "CHD") {
@@ -195,6 +209,19 @@ export class SeatComponent implements OnInit {
       }
 
       if(this.reservationService.returnReservations.length > 0) {
+        let fakeReservationCode = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        for (let i = 0; i < 2; i++) {
+          fakeReservationCode += characters.charAt(Math.floor(Math.random() * 26)); // Generates a random capital letter
+        }
+
+        for (let i = 0; i < 5; i++) {
+          fakeReservationCode += Math.floor(Math.random() * 10).toString(); // Generates a random number or capital letter
+        }
+
+        this.reservationService.returnReservations[i].code = fakeReservationCode
+
         if(this.reservationService.returnReservations[i].passengerAgeGroup.code == "AD") {
           this.reservationService.returnReservations[i].price = this.reservationService.returnReservations[i].flight.flightGeneric.basePrice * this.priceAddition
         } else if (this.reservationService.returnReservations[i].passengerAgeGroup.code == "CHD") {
@@ -356,6 +383,16 @@ export class SeatComponent implements OnInit {
     ticket.setFontSize(12);
     ticket.text(`Passenger Name: ${this.reservationService.outboundReservations[i].passengerFirstName} ${this.reservationService.outboundReservations[i].passengerLastName}`, 100, 30);
     ticket.text(`Seat Number: ${this.reservationService.outboundReservations[i].seatNumber}`, 100, 40);
+
+    const hour = this.reservationService.outboundReservations[i].flight.flightGeneric.departureHour;
+    const parsedInt = parseInt(hour.substring(0, 2)) - 1;
+    const newString = String(parsedInt) + hour.substring(2);
+
+    ticket.setTextColor(255, 0, 0); // Red color
+
+    ticket.text(`Heure limite d'embarquement: ${newString}`, 100, 50);
+
+    ticket.setTextColor(0, 0, 0); // Change back to black
 
     // Add the boarding pass barcode
     ticket.setFontSize(8);
