@@ -6,6 +6,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {User} from "../model/user";
 import {AuthGuard} from "../service/authentication/auth.guard";
 import 'bootstrap';
+import Swal from "sweetalert2";
 
 
 @Component({
@@ -138,7 +139,12 @@ export class LoginComponent {
           }
           else{
             this._authService.isLoggedIn = false
-            alert("Wrong credentials")
+            Swal.fire({
+                title: 'Authentication failed. Please try again.',
+                html: ``,
+                icon: "error"
+              }
+            );
           }
         },
         (error: HttpErrorResponse) => {
